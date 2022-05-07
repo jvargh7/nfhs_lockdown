@@ -1,4 +1,5 @@
-
+analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample.RDS")) %>% 
+  dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states) 
 marginal_predictions <- read_csv(paste0("paper/table_marginal predictions from poisson for outcomes.csv"))
 
 

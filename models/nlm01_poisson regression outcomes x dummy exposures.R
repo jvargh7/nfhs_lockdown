@@ -1,7 +1,7 @@
 require(survey)
 require(splines)
 
-analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/nlsens03_exposure window analytic sample.RDS")) %>% 
+analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample.RDS")) %>% 
   dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states)
 
 analytic_survey <- analytic_sample %>% 
@@ -12,17 +12,17 @@ analytic_survey <- analytic_sample %>%
 
 glm_stunting <- svyglm(c_stunting ~ ns(c_age,df=4) + e1_p1_d + e1_p2_d + e1_p3_d + e1_p4_d + e1_p5_d +
                          e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + 
-                         m_caste + m_rural + m_wealthq + m_religion + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
+                         m_caste + m_rural + m_wealthq + m_religion + m_age + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
                        family = poisson())
 
 glm_underweight <- svyglm(c_underweight ~ ns(c_age,df=4) + e1_p1_d + e1_p2_d + e1_p3_d + e1_p4_d + e1_p5_d +
                          e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + 
-                         m_caste + m_rural + m_wealthq + m_religion + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
+                         m_caste + m_rural + m_wealthq + m_religion + m_age + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
                        family = poisson())
 
 glm_wasting <- svyglm(c_wasting ~ ns(c_age,df=4) + e1_p1_d + e1_p2_d + e1_p3_d + e1_p4_d + e1_p5_d +
                             e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + 
-                            m_caste + m_rural + m_wealthq + m_religion + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
+                            m_caste + m_rural + m_wealthq + m_religion + m_age + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
                           family = poisson())
 
 summary_poisson = bind_rows(

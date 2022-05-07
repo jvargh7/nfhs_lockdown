@@ -2,7 +2,8 @@ analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample
   dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states) %>% 
   mutate(phase = case_when(is.na(phase) ~ 0,
                            TRUE ~ phase)) %>% 
-  mutate(phase = factor(phase,levels=c(0:2),labels=c("NFHS-4","NFHS-5 Pre-lockdown","NFHS-5 Post-lockdown")))
+  # mutate(phase = factor(phase,levels=c(0:2),labels=c("NFHS-4","NFHS-5 Pre-lockdown","NFHS-5 Post-lockdown")))
+  mutate(phase = factor(phase,levels=c(0:2),labels=c("2015-16","2019-20","2020-2021")))
 
 require(splines)
 

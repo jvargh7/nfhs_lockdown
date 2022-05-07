@@ -12,7 +12,7 @@ nfhs5_svydesign <- nfhs5_sample %>%
   as_survey_design(.data=.,ids = v021,strata=v024_nfhs5,nest=TRUE,weights = sampleweight,
                    variance = "YG",pps = "brewer")
 
-continuous_variables <- c("c_haz","c_waz","c_whz","m_bmi")
+continuous_variables <- c("c_haz","c_waz","c_whz","m_age","m_bmi")
 nfhs5_continuous <- nfhs5_svydesign %>% 
   group_by(phase) %>% 
   summarize_at(vars(one_of(continuous_variables)),

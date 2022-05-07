@@ -49,7 +49,7 @@ figA <- left_join(means,
   dplyr::filter(rural == 0) %>% 
   mutate(lci = marginal - 1.96*se,
          uci = marginal + 1.96*se) %>% 
-  mutate(period = factor(period,labels = c("38 weeks till birth","Birth to 6 months",
+  mutate(period = factor(period,labels = c("Gestation","Birth to 6 months",
                                            "7 to 12 months","13 to 18 months","19 to 24 months")),
          shock = factor(shock,levels = c(1,2),labels=c("Demonetization","COVID-19 Lockdown"))) %>% 
   ggplot(data=.,aes(x=period,y=marginal*-100,ymin = lci*-100,ymax=uci*-100,group=outcome,label=round(marginal*-100,1))) +
@@ -71,7 +71,7 @@ figB <- left_join(means,
   dplyr::filter(rural == 1) %>% 
   mutate(lci = marginal - 1.96*se,
          uci = marginal + 1.96*se) %>% 
-  mutate(period = factor(period,labels = c("38 weeks till birth","Birth to 6 months",
+  mutate(period = factor(period,labels = c("Gestation","Birth to 6 months",
                                            "7 to 12 months","13 to 18 months","19 to 24 months")),
          shock = factor(shock,levels = c(1,2),labels=c("Demonetization","COVID-19 Lockdown"))) %>% 
   ggplot(data=.,aes(x=period,y=marginal*-100,ymin = lci*-100,ymax=uci*-100,group=outcome,label=round(marginal*-100,1))) +

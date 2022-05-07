@@ -13,7 +13,7 @@ excluded_svydesign <- excluded_sample %>%
   as_survey_design(.data=.,ids = v021,strata=v024_nfhs5,nest=TRUE,weights = combined_sampleweight,
                    variance = "YG",pps = "brewer")
 
-continuous_variables <- c("c_haz","c_waz","c_whz","m_bmi")
+continuous_variables <- c("c_haz","c_waz","c_whz","m_age","m_bmi")
 excluded_continuous <- excluded_svydesign %>% 
   group_by(group) %>% 
   summarize_at(vars(one_of(continuous_variables)),
