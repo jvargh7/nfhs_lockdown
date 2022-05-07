@@ -9,8 +9,8 @@ means = marginal_predictions %>%
                              outcome == "marginal_underweight" ~ "Underweight",
                              outcome == "marginal_wasting" ~ "Wasting",
                              TRUE ~ NA_character_),
-         shock = case_when(str_detect(exposure,"e1_") ~ "Demonetization",
-                           TRUE ~ "COVID-19 Lockdown"),
+         shock = case_when(str_detect(exposure,"e1_") ~ 1,
+                           TRUE ~ 2),
          period = case_when(str_detect(exposure,"p1_") ~ 1,
                             str_detect(exposure,"p2_") ~ 2,
                             str_detect(exposure,"p3_") ~ 3,
@@ -25,8 +25,8 @@ se = marginal_predictions %>%
                              outcome == "sd_marginal_underweight" ~ "Underweight",
                              outcome == "sd_marginal_wasting" ~ "Wasting",
                              TRUE ~ NA_character_),
-         shock = case_when(str_detect(exposure,"e1_") ~ "Demonetization",
-                           TRUE ~ "COVID-19 Lockdown"),
+         shock = case_when(str_detect(exposure,"e1_") ~ 1,
+                           TRUE ~ 2),
          period = case_when(str_detect(exposure,"p1_") ~ 1,
                             str_detect(exposure,"p2_") ~ 2,
                             str_detect(exposure,"p3_") ~ 3,
@@ -43,13 +43,15 @@ fig_out <- left_join(means,
   mutate(lci = marginal - 1.96*se,
          uci = marginal + 1.96*se) %>% 
   mutate(period = factor(period,labels = c("38 weeks till birth","Birth to 6 months",
-                                           "7 to 12 months","13 to 18 months","19 to 24 months"))) %>% 
-  ggplot(data=.,aes(x=period,y=marginal*100,ymin = lci*100,ymax=uci*100,fill=outcome,group=outcome)) +
-  geom_col(position = position_dodge(width = 0.9)) +
-  geom_errorbar(position = position_dodge(width = 0.9),width = 0.1) +
+                                           "7 to 12 months","13 to 18 months","19 to 24 months")),
+         shock = factor(shock,levels = c(1,2),labels=c("Demonetization","COVID-19 Lockdown"))) %>% 
+  ggplot(data=.,aes(x=period,y=marginal*-100,ymin = lci*-100,ymax=uci*-100,group=outcome,label=round(marginal*-100,1))) +
+  geom_col(aes(fill=outcome),position = position_dodge(width = 0.9)) +
+  geom_label(aes(y=marginal*-120),label.size = NA,alpha=0,position = position_dodge(width = 0.9)) +
+  # geom_errorbar(position = position_dodge(width = 0.9),width = 0.1) +
   facet_grid(~shock) +
   xlab("") +
-  ylab("Difference % (Unexposed - Exposed)") +
+  ylab("Difference % (Exposed - Unexposed)") +
   theme_bw() +
   theme(legend.position = "bottom") +
   scale_fill_discrete(name = "")

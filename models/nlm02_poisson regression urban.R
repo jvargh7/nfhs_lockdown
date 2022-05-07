@@ -1,8 +1,9 @@
 require(survey)
 require(splines)
 
-analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/nlsens03_exposure window analytic sample.RDS")) %>% 
-  dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states)
+analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample.RDS")) %>% 
+  dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states) %>% 
+  dplyr::filter(m_rural == 0)
 
 analytic_survey <- analytic_sample %>% 
   as_survey_design(.data=.,ids = v021,strata=v024_nfhs5,nest=TRUE,weights = combined_sampleweight,
@@ -12,18 +13,18 @@ analytic_survey <- analytic_sample %>%
 
 glm_stunting <- svyglm(c_stunting ~ ns(c_age,df=4) + e1_p1_d + e1_p2_d + e1_p3_d + e1_p4_d + e1_p5_d +
                          e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + 
-                         m_caste + m_rural + m_wealthq + m_religion + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
+                         m_caste + m_wealthq + m_religion + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
                        family = poisson())
 
 glm_underweight <- svyglm(c_underweight ~ ns(c_age,df=4) + e1_p1_d + e1_p2_d + e1_p3_d + e1_p4_d + e1_p5_d +
-                         e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + 
-                         m_caste + m_rural + m_wealthq + m_religion + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
-                       family = poisson())
+                            e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + 
+                            m_caste + m_wealthq + m_religion + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
+                          family = poisson())
 
 glm_wasting <- svyglm(c_wasting ~ ns(c_age,df=4) + e1_p1_d + e1_p2_d + e1_p3_d + e1_p4_d + e1_p5_d +
-                            e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + 
-                            m_caste + m_rural + m_wealthq + m_religion + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
-                          family = poisson())
+                        e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + 
+                        m_caste + m_wealthq + m_religion + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
+                      family = poisson())
 
 summary_poisson = bind_rows(
   broom::tidy(glm_stunting) %>% mutate(outcome = "Stunting"),
@@ -40,9 +41,7 @@ summary_poisson = bind_rows(
 summary_poisson %>% 
   dplyr::select(term,outcome,coef_ci) %>% 
   pivot_wider(names_from=outcome,values_from = coef_ci) %>% 
-  write_csv(.,"paper/table_poisson outcomes x economic shocks.csv")
-
-# Marginal standardization -------------
+  write_csv(.,"paper/table_poisson outcomes x economic shocks in urban.csv")
 
 exposures <- c("e1_p1_d","e1_p2_d","e1_p3_d","e1_p4_d","e1_p5_d","e2_p1_d","e2_p2_d","e2_p3_d","e2_p4_d","e2_p5_d")
 
@@ -101,6 +100,4 @@ marginal_predictions <- map_dfr(exposures,function(e){
   
 })
 
-write_csv(marginal_predictions,paste0("paper/table_marginal predictions from poisson for outcomes.csv"))
-
-
+write_csv(marginal_predictions,paste0("paper/table_marginal predictions from poisson for urban.csv"))

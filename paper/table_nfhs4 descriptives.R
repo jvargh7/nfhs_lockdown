@@ -1,14 +1,14 @@
-nfhs4_exposure <- readRDS(paste0(path_lockdown_folder,"/working/nfhs4_exposure.RDS"))  %>% 
-  dplyr::filter(!is.na(c_haz) & !is.na(c_waz) & !is.na(c_whz))
+
+nfhs4_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample.RDS")) %>% 
+  dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states,nfhs5==0)
 require(srvyr)
 
-nfhs4_svydesign <- nfhs4_exposure %>% 
+nfhs4_svydesign <- nfhs4_sample %>% 
   mutate_at(vars("c_stunting","c_underweight","c_wasting","c_overweight","m_alcohol","m_smoking","m_rural"),
             function(x) case_when(x == 1 ~ "yes",
                                   x == 0 ~ "no",
                                   TRUE ~ "no")) %>% 
-  mutate(m_wealthq = factor(m_wealthq,levels=c(1:5),labels=c("Lowest","Low","Medium","High","Highest"))) %>% 
-  as_survey_design(.data=.,ids = v021,strata=v024,nest=TRUE,weights = sampleweight,
+  as_survey_design(.data=.,ids = v021,strata=v024_nfhs5,nest=TRUE,weights = sampleweight,
                    variance = "YG",pps = "brewer")
 
 continuous_variables <- c("c_haz","c_waz","c_whz","m_bmi")
@@ -36,7 +36,7 @@ nfhs4_groups <- map_dfr(group_variables,
                                  }) %>% 
   dplyr::filter(!is.na(proportion)) 
 
-nfhs4_counts <- nfhs4_exposure %>% 
+nfhs4_counts <- nfhs4_sample %>% 
   summarize_at(vars(continuous_variables,group_variables),list(n = ~sum(!is.na(.)))) %>% 
   pivot_longer(names_to="variable",values_to="n",cols=everything()) %>% 
   mutate(variable = str_replace(variable,"_n$",""))

@@ -22,7 +22,8 @@ nfhs4 <- read_dta(paste0(path_dhs_data,"/IA/IAKR74DT/IAKR74FL.dta"),col_select =
                           TRUE ~ as.numeric(v016)),
          ) %>%
   mutate(c_dob = as_date(paste0(b2,"-",b1,"-",hw16)),
-         c_interview = as_date(paste0(v007,"-",v006,"-",v016))) %>% 
+         c_interview = as_date(paste0(v007,"-",v006,"-",v016)),
+         c_month = hw18) %>% 
   
   mutate(c_male = case_when(b4 == 1 ~ 1,
                             b4 == 2 ~ 0,

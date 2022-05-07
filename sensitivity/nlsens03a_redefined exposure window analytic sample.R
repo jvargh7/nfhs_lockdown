@@ -1,4 +1,9 @@
 nfhs4_exposure <- readRDS(paste0(path_lockdown_folder,"/working/nfhs4_exposure.RDS"))   %>% 
+  dplyr::select(-starts_with("e1_"),-starts_with("e2_")) %>% 
+  left_join(readRDS("data/overlaps sensitivity.RDS") %>% 
+              dplyr::select(dates,matches("^(e1|e2)")),
+            by=c("c_dob"="dates")) %>%  
+  
   mutate(m_wealthq = factor(m_wealthq,levels=c(1:5),labels=c("Lowest","Low","Medium","High","Highest"))) %>% 
   left_join(readxl::read_excel("data/NFHS Lockdown Variable List.xlsx",sheet="v024 comparison") %>% 
               dplyr::select(v024_nfhs5,v024_nfhs4),
@@ -8,7 +13,11 @@ nfhs4_exposure <- readRDS(paste0(path_lockdown_folder,"/working/nfhs4_exposure.R
                                 TRUE ~ v024_nfhs5))
 
 
-nfhs5_exposure <- readRDS(paste0(path_lockdown_folder,"/working/nfhs5_exposure.RDS"))  %>% 
+nfhs5_exposure <- readRDS(paste0(path_lockdown_folder,"/working/nfhs5_exposure.RDS"))   %>% 
+  dplyr::select(-starts_with("e1_"),-starts_with("e2_")) %>% 
+  left_join(readRDS("data/overlaps sensitivity.RDS") %>% 
+              dplyr::select(dates,matches("^(e1|e2)")),
+            by=c("c_dob"="dates")) %>%   
   mutate(m_wealthq = factor(m_wealthq,levels=c(1:5),labels=c("Lowest","Low","Medium","High","Highest")),
          m_alcohol = case_when(is.na(m_alcohol) ~ 0,
                                TRUE ~ m_alcohol)) %>% 
@@ -21,20 +30,10 @@ analytic_sample <- bind_rows(
            nfhs5 = 0),
   nfhs5_exposure %>% 
     mutate(combined_sampleweight = sampleweight*(nrow(nfhs5_exposure)/(nrow(nfhs5_exposure) + nrow(nfhs4_exposure))),
-           nfhs5 = 1)) 
-
-# Step 2 ---- Restrict to 14 states --------
-analytic_sample_s2 <- analytic_sample  %>% 
-  dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states)
-
-table(analytic_sample_s2$phase,useNA="always")
-
-# Step 3 -----Restrict to non-NA values --------
-analytic_sample_s3 <- analytic_sample_s2 %>% 
+           nfhs5 = 1))  %>% 
+  dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states) %>% 
   dplyr::filter(!is.na(c_haz) & !is.na(c_waz) & !is.na(c_whz))
 
-table(analytic_sample_s3$phase,useNA="always")
-
-saveRDS(analytic_sample_s3,paste0(path_lockdown_folder,"/working/analytic_sample.RDS"))
+saveRDS(analytic_sample,paste0(path_lockdown_folder,"/working/nlsens03_exposure window analytic sample.RDS"))
 
 

@@ -23,6 +23,7 @@ nfhs5 <- read_dta(paste0(path_dhs_data,"/IA/IAKR7ADT/IAKR7AFL.dta"),col_select =
   ) %>%
   mutate(c_dob = as_date(paste0(b2,"-",b1,"-",hw16)),
          c_interview = as_date(paste0(v007,"-",v006,"-",v016)),
+         c_month = hw18,
          phase = case_when(c_interview <= "2020-03-23" ~ 1,
                            c_interview > "2020-03-23" ~ 2,
                            TRUE ~ NA_real_)) %>% 

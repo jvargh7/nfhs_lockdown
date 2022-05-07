@@ -1,22 +1,8 @@
 require(survey)
 require(splines)
-# Arunachal Pradesh
-# Chandigarh
-# Chhattisgarh
-# Haryana
-# Jharkhand
-# Madhya Pradesh
-# Nct Of Delhi
-# Odisha
-# Puducherry
-# Punjab
-# Rajasthan
-# Tamil Nadu
-# Uttar Pradesh
-# Uttarakhand
 
-analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample.RDS")) %>% 
-  dplyr::filter(v024_nfhs5 %in% c(12,4,22,6,20,23,7,21,34,3,8,33,9,5))
+analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/nlsens03_exposure window analytic sample.RDS")) %>% 
+  dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states)
 
 analytic_survey <- analytic_sample %>% 
   as_survey_design(.data=.,ids = v021,strata=v024_nfhs5,nest=TRUE,weights = combined_sampleweight,
@@ -54,7 +40,4 @@ summary_poisson = bind_rows(
 summary_poisson %>% 
   dplyr::select(term,outcome,coef_ci) %>% 
   pivot_wider(names_from=outcome,values_from = coef_ci) %>% 
-  write_csv(.,"paper/table_poisson outcomes x economic shocks 13 states.csv")
-
-
-
+  write_csv(.,"sensitivity/sens03b_poisson outcomes x economic shocks.csv")
