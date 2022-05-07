@@ -74,6 +74,20 @@ bind_cols(overlaps,list_overlaps) %>%
                                                    TRUE ~ 0))) %>%
 saveRDS(.,paste0("data/overlaps.RDS"))
 
+# How many unique combinations of exposure with > 100 days = 10
+# overlaps <- readRDS(paste0("data/overlaps.RDS"))
+# overlaps %>%
+#   dplyr::select(dates,ends_with("_d")) %>%
+#   dplyr::filter(rowSums(.[,-1])!=0) %>%
+#   group_by_at(vars(ends_with("_d"))) %>%
+#   summarize(n = n(),
+#             min = min(dates),
+#             max = max(dates)) %>%
+#   ungroup() %>% 
+#   dplyr::filter(n > 100) %>%
+#   View()
+
+
 dates_x_survey_count <- bind_cols(overlaps,list_overlaps) %>% 
   mutate_at(vars(starts_with("e")),.f = list(d = function(x) case_when(x > 90 ~ 1,
                                                                        TRUE ~ 0))) %>% 
