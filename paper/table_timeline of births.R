@@ -1,7 +1,8 @@
 require(lubridate)
+iakr74_variables <- readxl::read_excel("data/NFHS Lockdown Variable List.xlsx",sheet="growth")$iakr74dt %>% na.omit(.)
 
 iakr74_df <- haven::read_dta(paste0(path_dhs_data,"/IA/IAKR74DT/IAKR74FL.dta"),
-                                                      col_select = iakr_variables$iakr74dt) %>%
+                                                      col_select = iakr74_variables) %>%
   dplyr::select(starts_with("b"),hw16) %>%
   mutate(hw16 = case_when(is.na(hw16) | hw16 == 98 ~ 15,
                           b1 == 2 & b2 %in% c(2008,2012,2016,2020) & hw16 > 29 ~ 29,

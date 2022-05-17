@@ -11,18 +11,18 @@ analytic_survey <- analytic_sample %>%
 # Stunting -----------
 
 glm_stunting <- svyglm(c_stunting ~ ns(c_age,df=4) + e1_p1_d + e1_p2_d + e1_p3_d + e1_p4_d + e1_p5_d +
-                         e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + 
-                         m_caste + m_rural + m_wealthq + m_religion + m_age + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
+                         e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + c_male + 
+                         m_caste + m_religion + m_age + m_education + m_rural + factor(sdistri) + factor(c_month),design = analytic_survey,
                        family = poisson())
 
 glm_underweight <- svyglm(c_underweight ~ ns(c_age,df=4) + e1_p1_d + e1_p2_d + e1_p3_d + e1_p4_d + e1_p5_d +
-                         e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + 
-                         m_caste + m_rural + m_wealthq + m_religion + m_age + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
+                         e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + c_male + 
+                           m_caste + m_religion + m_age + m_education + m_rural + factor(sdistri) + factor(c_month),design = analytic_survey,
                        family = poisson())
 
 glm_wasting <- svyglm(c_wasting ~ ns(c_age,df=4) + e1_p1_d + e1_p2_d + e1_p3_d + e1_p4_d + e1_p5_d +
-                            e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + 
-                            m_caste + m_rural + m_wealthq + m_religion + m_age + m_education + m_alcohol + m_smoking + factor(v024_nfhs5),design = analytic_survey,
+                            e2_p1_d + e2_p2_d + e2_p3_d + e2_p4_d + e2_p5_d + nfhs5 + c_male + 
+                        m_caste + m_religion + m_age + m_education + m_rural + factor(sdistri) + factor(c_month),design = analytic_survey,
                           family = poisson())
 
 summary_poisson = bind_rows(

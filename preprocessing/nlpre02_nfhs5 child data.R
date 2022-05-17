@@ -118,7 +118,13 @@ nfhs5 <- read_dta(paste0(path_dhs_data,"/IA/IAKR7ADT/IAKR7AFL.dta"),col_select =
   mutate(
     v025 = case_when(v025 == 1 ~ 0,
                      v025 == 2 ~ 1,
-                     TRUE ~ NA_real_)) %>% 
+                     TRUE ~ NA_real_),
+    
+    m_employment = case_when(v714 == 1 ~ 2,
+                             v714 == 0 ~ 1,
+                             TRUE ~ 0)
+  ) %>% 
+  mutate(m_employment = factor(m_employment,levels=c("no","former","current"))) %>% 
   dplyr::rename(m_bmi = v445,
                 m_caste = s116,
                 m_education = v106,
@@ -144,7 +150,15 @@ nfhs5 %>%
 overlaps <- readRDS("data/overlaps.RDS") %>% 
   dplyr::select(-ends_with("_d")) %>% 
   mutate_at(vars(starts_with("e")),.f = list(d = function(x) case_when(x > 90 ~ 1,
-                                                                       TRUE ~ 0)))
+                                                                       TRUE ~ 0)))  %>% 
+  mutate(sum_e1 = rowSums(.[,c("e1_p1","e1_p2","e1_p3","e1_p4","e1_p5")]),
+         sum_e2 = rowSums(.[,c("e2_p1","e2_p2","e2_p3","e2_p4","e2_p5")])
+  ) %>% 
+  mutate(sum_e1_d = case_when(sum_e1 > 90 ~ 1,
+                              TRUE ~ 0),
+         sum_e2_d = case_when(sum_e2 > 90 ~ 1,
+                              TRUE ~ 0)
+  )
 
 # Count 
 overlaps %>% 
@@ -164,7 +178,7 @@ overlaps %>%
 
 nfhs5_exposure <- nfhs5 %>% 
   left_join(overlaps %>% 
-              dplyr::select(dates,matches("^(e1|e2)")),
+              dplyr::select(dates,matches("^(e1|e2)"),matches("^(sum)")),
             by=c("c_dob"="dates"))
 
 saveRDS(nfhs5_exposure,paste0(path_lockdown_folder,"/working/nfhs5_exposure.RDS"))

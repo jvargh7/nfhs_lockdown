@@ -1,19 +1,45 @@
+set.seed(2022)
+sdistri_nfhs5 <- readRDS("data/sdist_nfhs4.RDS") %>% 
+  group_by(sdistri) %>% 
+  summarize(sdist_list = list(sdist))
+
 nfhs4_exposure <- readRDS(paste0(path_lockdown_folder,"/working/nfhs4_exposure.RDS"))   %>% 
   mutate(m_wealthq = factor(m_wealthq,levels=c(1:5),labels=c("Lowest","Low","Medium","High","Highest"))) %>% 
   left_join(readxl::read_excel("data/NFHS Lockdown Variable List.xlsx",sheet="v024 comparison") %>% 
               dplyr::select(v024_nfhs5,v024_nfhs4),
-            by=c("v024" = "v024_nfhs4")) %>% 
+            by=c("v024" = "v024_nfhs4"))  %>% 
+  mutate(sdistri = as.character(sdistri)) %>% 
+  left_join(sdistri_nfhs5,
+            by = "sdistri") %>% 
+  mutate(sdist = lapply(.$sdist_list,function(x) ifelse(length(x) == 1,x, sample(x,1))) %>% as.numeric(),
+         sdistri = as.numeric(sdistri)) %>% 
   dplyr::select(-v024) %>% 
   mutate(v024_nfhs5 = case_when(sdistri %in% c(3,4) ~ 37,
-                                TRUE ~ v024_nfhs5))
+                                TRUE ~ v024_nfhs5)) %>% 
+  dplyr::select(-sdist_list)
 
+
+# nfhs5 --------
+sdist_nfhs4 <- readRDS("data/sdist_nfhs4.RDS") %>% 
+  group_by(sdist) %>% 
+  summarize(sdistri_list = list(sdistri))
 
 nfhs5_exposure <- readRDS(paste0(path_lockdown_folder,"/working/nfhs5_exposure.RDS"))  %>% 
   mutate(m_wealthq = factor(m_wealthq,levels=c(1:5),labels=c("Lowest","Low","Medium","High","Highest")),
          m_alcohol = case_when(is.na(m_alcohol) ~ 0,
                                TRUE ~ m_alcohol)) %>% 
-  rename(sdistri = sdist,
-         v024_nfhs5 = v024)
+  left_join(sdist_nfhs4,
+            by = "sdist") %>% 
+  mutate(sdistri = lapply(.$sdistri_list,function(x) ifelse(length(x) == 1,x, sample(x,1))) %>% as.numeric(),
+         sdist = as.numeric(sdist)) %>% 
+  rename(
+         v024_nfhs5 = v024) %>% 
+  dplyr::select(-sdistri_list)
+
+
+
+
+
 
 analytic_sample <- bind_rows(
   nfhs4_exposure %>% 

@@ -1,7 +1,7 @@
 
 overlap_predictions <- bind_rows(
-  read_csv("paper/prediction for unique months and year for urban.csv") %>% mutate(m_rural = "Urban"),
-  read_csv("paper/prediction for unique months and year for rural.csv") %>% mutate(m_rural = "Rural")) %>% 
+  read_csv("paper/nlmb02_prediction for unique months and year for urban.csv") %>% mutate(m_rural = "Urban"),
+  read_csv("paper/nlmb03_prediction for unique months and year for rural.csv") %>% mutate(m_rural = "Rural")) %>% 
   dplyr::filter(dates > "2012-11-30")
 
 

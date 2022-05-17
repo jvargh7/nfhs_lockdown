@@ -11,7 +11,7 @@ lockdown_start <- "2020-03-24"
 lockdown_stop <- "2020-12-31"
 
 demonetization_start <- "2016-11-09"
-demonetization_stop <- "2018-11-08"
+demonetization_stop <- "2017-06-30"
 
 nfhs4_start <- "2015-01-20"
 nfhs4_stop <- "2016-12-04"

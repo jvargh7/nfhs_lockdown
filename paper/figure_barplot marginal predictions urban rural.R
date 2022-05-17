@@ -1,8 +1,8 @@
 analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample.RDS")) %>% 
   dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states) 
 
-marginal_rural <- read_csv(paste0("paper/table_marginal predictions from poisson for rural.csv"))
-marginal_urban <- read_csv(paste0("paper/table_marginal predictions from poisson for urban.csv"))
+marginal_rural <- read_csv(paste0("paper/nlmb03_marginal predictions from poisson for rural.csv"))
+marginal_urban <- read_csv(paste0("paper/nlmb02_marginal predictions from poisson for urban.csv"))
 
 
 means = bind_rows(marginal_rural %>% mutate(rural = 1),
