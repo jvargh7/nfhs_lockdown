@@ -1,34 +1,24 @@
 require(survey)
 require(splines)
 
-overlaps_unique <- readRDS("data/overlaps.RDS") %>% 
-  dplyr::select(ends_with("_d")) %>% 
-  distinct_at(vars(starts_with("e"))) %>% 
-  mutate(e_interaction = 1:nrow(.))
-
 analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample.RDS")) %>% 
   dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states) %>% 
-  left_join(overlaps_unique,
-            by=c(names(overlaps_unique)[-11])) %>% 
-  dplyr::filter(m_rural == 1)
-
+  dplyr::filter(m_rural == 0)
 
 analytic_survey <- analytic_sample %>% 
   as_survey_design(.data=.,ids = v021,strata=v024_nfhs5,nest=TRUE,weights = combined_sampleweight,
                    variance = "YG",pps = "brewer")
 
-glm_stunting <- svyglm(as_formula(paste0("c_stunting ~ factor(e_interaction)",region_covariates)),design = analytic_survey,
+glm_stunting <- svyglm(as_formula(paste0("c_stunting ~ sum_e1_d + sum_e2_d",region_covariates)),design = analytic_survey,
                        family = quasipoisson())
 
-glm_underweight <- svyglm(as_formula(paste0("c_underweight ~ factor(e_interaction)",region_covariates)),design = analytic_survey,
+glm_underweight <- svyglm(as_formula(paste0("c_underweight ~ sum_e1_d + sum_e2_d",region_covariates)),design = analytic_survey,
                           family = quasipoisson())
 
-glm_wasting <- svyglm(as_formula(paste0("c_wasting ~ factor(e_interaction)",region_covariates)),design = analytic_survey,
+glm_wasting <- svyglm(as_formula(paste0("c_wasting ~ sum_e1_d + sum_e2_d",region_covariates)),design = analytic_survey,
                       family = quasipoisson())
 
-saveRDS(save_svyglm(glm_stunting) ,paste0(path_lockdown_folder,"/working/nlsb/nlsb03_glm_stunting.RDS"))
-saveRDS(save_svyglm(glm_underweight),paste0(path_lockdown_folder,"/working/nlsb/nlsb03_glm_underweight.RDS"))
-saveRDS(save_svyglm(glm_wasting),paste0(path_lockdown_folder,"/working/nlsb/nlsb03_glm_wasting.RDS"))
+
 # Stunting -----------
 
 
@@ -42,21 +32,24 @@ summary_poisson = bind_rows(
   mutate(coef_ci = paste0(round(coef,2)," (",
                           round(lci,2),", ",
                           round(uci,2),")")) %>% 
-  dplyr::filter(str_detect(term,"factor\\(e"))
+  dplyr::filter(str_detect(term,"^sum")) 
 
 summary_poisson %>% 
   dplyr::select(term,outcome,coef_ci) %>% 
   pivot_wider(names_from=outcome,values_from = coef_ci) %>% 
-  write_csv(.,"models with sequential interactions/nlsb03_poisson outcomes x economic shocks in rural.csv")
+  write_csv(.,"models/nlwa02_poisson outcomes x economic shocks in urban.csv")
 
-e_interaction_level <- c(2:19)
+# Marginal standardization -------------
 
-marginal_predictions <- map_dfr(e_interaction_level,function(e){
+exposures <- c("sum_e1_d","sum_e2_d")
+
+marginal_predictions <- map_dfr(exposures,function(e){
   print(e);
   e0_df = analytic_sample %>% 
-    mutate_at(vars(e_interaction),function(x) case_when(TRUE ~ 1));
+    mutate_at(vars(one_of(e)),function(x) case_when(TRUE ~ 0));
   e1_df = analytic_sample %>% 
-    mutate_at(vars(e_interaction),function(x) case_when(TRUE ~ e));
+    mutate_at(vars(one_of(e)),function(x) case_when(TRUE ~ 1));
+  
   
   pred_e0_stunting = predict(glm_stunting,newdata=e0_df,type="response") 
   mean_pred_e0_stunting = Hmisc::wtd.mean(pred_e0_stunting,weights = e0_df$combined_sampleweight,normwt = TRUE);
@@ -106,42 +99,54 @@ marginal_predictions <- map_dfr(e_interaction_level,function(e){
   
 })
 
-write_csv(marginal_predictions,paste0("models with sequential interactions/nlsb03_marginal predictions from poisson for rural.csv"))
+write_csv(marginal_predictions,paste0("models/nlwa02_marginal predictions from poisson for urban.csv"))
 
-# Marginal date of birth trends --------------
-require(lubridate)
-source("models/delta_method.R")
-overlaps <- readRDS("data/overlaps.RDS")  %>% 
-  dplyr::select(dates,ends_with("_d")) %>% 
-  mutate(month = month(dates),
-         year = year(dates)) %>% 
-  distinct_at(vars(month,year,ends_with("_d")),.keep_all = TRUE) %>% 
-  left_join(overlaps_unique,
-            by=c(names(overlaps_unique)[-11]))
 
-pred_overlaps <- map_dfr(1:nrow(overlaps), function(i){
-  print(i);
-  e_df = analytic_sample %>% 
-    dplyr::select(-ends_with("_d"),-e_interaction) %>% 
-    bind_cols(overlaps[i,-1])
-  
-  
-  pred_stunting = delta_method(glm_stunting,pred_df=e_df)
-  pred_underweight = delta_method(glm_underweight,pred_df=e_df)
-  pred_wasting = delta_method(glm_wasting,pred_df=e_df)
-  
-  
-  
-  data.frame(row = i,
-             mean_pred_e_stunting = pred_stunting[["mean"]],
-             mean_pred_e_underweight = pred_underweight[["mean"]],
-             mean_pred_e_wasting = pred_wasting[["mean"]],
-             se_pred_e_stunting = pred_stunting[["se"]],
-             se_pred_e_underweight = pred_underweight[["se"]],
-             se_pred_e_wasting = pred_wasting[["se"]]
-  ) %>% 
-    return(.)
-})
-
-bind_cols(overlaps,pred_overlaps) %>% 
-  write_csv(.,"models with sequential interactions/nlsb03_prediction for unique months and year for rural.csv")
+# # Marginal date of birth trends --------------
+# require(lubridate)
+# source("models/delta_method.R")
+# overlaps <- readRDS("data/overlaps.RDS")  %>% 
+#   dplyr::select(-ends_with("_d")) %>% 
+#   mutate_at(vars(starts_with("e")),.f = list(d = function(x) case_when(x > 90 ~ 1,
+#                                                                        TRUE ~ 0))) %>% 
+#   mutate(sum_e1 = rowSums(.[,c("e1_p1","e1_p2","e1_p3","e1_p4","e1_p5")]),
+#          sum_e2 = rowSums(.[,c("e2_p1","e2_p2","e2_p3","e2_p4","e2_p5")])
+#   ) %>% 
+#   mutate(sum_e1_d = case_when(sum_e1 > 90 ~ 1,
+#                               TRUE ~ 0),
+#          sum_e2_d = case_when(sum_e2 > 90 ~ 1,
+#                               TRUE ~ 0)
+#   ) %>% 
+#   dplyr::select(dates,sum_e1_d,sum_e2_d) %>% 
+#   mutate(month = month(dates),
+#          year = year(dates)) %>% 
+#   distinct_at(vars(month,year,ends_with("_d")),.keep_all = TRUE)
+# 
+# pred_overlaps <- map_dfr(1:nrow(overlaps), function(i){
+#   print(i);
+#   e_df = analytic_sample %>% 
+#     dplyr::select(-ends_with("_d")) %>% 
+#     bind_cols(overlaps[i,-1])
+#   
+#   
+#   pred_stunting = delta_method(glm_stunting,pred_df=e_df)
+#   pred_underweight = delta_method(glm_underweight,pred_df=e_df)
+#   pred_wasting = delta_method(glm_wasting,pred_df=e_df)
+#   
+#   
+#   
+#   data.frame(row = i,
+#              mean_pred_e_stunting = pred_stunting[["mean"]],
+#              mean_pred_e_underweight = pred_underweight[["mean"]],
+#              mean_pred_e_wasting = pred_wasting[["mean"]],
+#              se_pred_e_stunting = pred_stunting[["se"]],
+#              se_pred_e_underweight = pred_underweight[["se"]],
+#              se_pred_e_wasting = pred_wasting[["se"]]
+#   ) %>% 
+#     return(.)
+# })
+# 
+# bind_cols(overlaps,pred_overlaps) %>% 
+#   write_csv(.,"models/nlwa02_prediction for unique months and year for urban.csv")
+# 
+# 

@@ -17,17 +17,14 @@ analytic_survey <- analytic_sample %>%
   as_survey_design(.data=.,ids = v021,strata=v024_nfhs5,nest=TRUE,weights = combined_sampleweight,
                    variance = "YG",pps = "brewer")
 
-glm_stunting <- svyglm(c_stunting ~ ns(c_age,df=4) + factor(e_interaction) + nfhs5 + 
-                         m_wealthq + m_caste + m_wealthq + m_religion + m_age + m_education + m_alcohol + m_smoking + factor(v024_nfhs5) + factor(c_month),design = analytic_survey,
-                       family = poisson())
+glm_stunting <- svyglm(as_formula(paste0("c_stunting ~ factor(e_interaction)",region_covariates)),design = analytic_survey,
+                       family = quasipoisson())
 
-glm_underweight <- svyglm(c_underweight ~ ns(c_age,df=4) + factor(e_interaction) + nfhs5 + 
-                            m_wealthq + m_caste + m_wealthq + m_religion + m_age + m_education + m_alcohol + m_smoking + factor(v024_nfhs5) + factor(c_month),design = analytic_survey,
-                          family = poisson())
+glm_underweight <- svyglm(as_formula(paste0("c_underweight ~ factor(e_interaction)",region_covariates)),design = analytic_survey,
+                          family = quasipoisson())
 
-glm_wasting <- svyglm(c_wasting ~ ns(c_age,df=4) + factor(e_interaction) + nfhs5 + 
-                        m_wealthq + m_caste + m_wealthq + m_religion + m_age + m_education + m_alcohol + m_smoking + factor(v024_nfhs5) + factor(c_month),design = analytic_survey,
-                      family = poisson())
+glm_wasting <- svyglm(as_formula(paste0("c_wasting ~ factor(e_interaction)",region_covariates)),design = analytic_survey,
+                      family = quasipoisson())
 
 
 # Stunting -----------
@@ -124,7 +121,9 @@ pred_overlaps <- map_dfr(1:nrow(overlaps), function(i){
   print(i);
   e_df = analytic_sample %>% 
     dplyr::select(-ends_with("_d"),-e_interaction) %>% 
-    bind_cols(overlaps[i,-1])
+    bind_cols(overlaps[i,-1]) %>% 
+    # CHECK: Does it contrast correctly? ---------------
+    mutate(e_interaction = factor(e_interaction,levels=c(1:19)))
   
   
   pred_stunting = delta_method(glm_stunting,pred_df=e_df)
