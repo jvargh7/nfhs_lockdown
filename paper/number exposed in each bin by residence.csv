@@ -1,0 +1,42 @@
+phase,e_interaction,term2,term3,Urban,Rural
+2015-16,1,Table Order 01,None-None,28060,82894
+2019-20,1,Table Order 01,None-None,961,3484
+2020-21,1,Table Order 01,None-None,1207,4828
+2019-20,10,Table Order 02,D Gestation-None,1421,5251
+2020-21,10,Table Order 02,D Gestation-None,1890,7491
+2019-20,9,Table Order 03,D Gestation and 0/6mo,246,899
+2020-21,9,Table Order 03,D Gestation and 0/6mo,294,1231
+2015-16,8,Table Order 04,D 0/6mo and None,2,26
+2019-20,8,Table Order 04,D 0/6mo and None,721,2662
+2020-21,8,Table Order 04,D 0/6mo and None,975,3465
+2015-16,7,Table Order 05,D 0/6mo and 7/12mo,14,103
+2019-20,7,Table Order 05,D 0/6mo and 7/12mo,298,1085
+2020-21,7,Table Order 05,D 0/6mo and 7/12mo,435,1552
+2015-16,6,Table Order 06,D 7/12mo and None,366,1206
+2019-20,6,Table Order 06,D 7/12mo and None,669,2561
+2020-21,6,Table Order 06,D 7/12mo and None,945,3559
+2015-16,5,Table Order 07,D 7/12mo and 13/18mo,357,1226
+2019-20,5,Table Order 07,D 7/12mo and 13/18mo,299,958
+2020-21,5,Table Order 07,D 7/12mo and 13/18mo,275,1075
+2015-16,4,Table Order 08,D 13/18mo and None,1456,4202
+2019-20,4,Table Order 08,D 13/18mo and None,700,2490
+2020-21,4,Table Order 08,D 13/18mo and None,164,505
+2015-16,3,Table Order 09,D 13/18mo and 19/24mo,559,1683
+2019-20,3,Table Order 09,D 13/18mo and 19/24mo,335,1086
+2015-16,2,Table Order 10,D 19/24mo and None,2049,6494
+2019-20,2,Table Order 10,D 19/24mo and None,901,3613
+2020-21,19,Table Order 11,L Gestation-None,742,3597
+2020-21,18,Table Order 12,L Gestation and 0/6mo,660,2925
+2020-21,17,Table Order 13,L 0/6mo and None,489,1842
+2019-20,16,Table Order 14,L 0/6mo and 7/12mo,171,818
+2020-21,16,Table Order 14,L 0/6mo and 7/12mo,597,2629
+2019-20,15,Table Order 15,L 7/12mo and None,373,1622
+2020-21,15,Table Order 15,L 7/12mo and None,603,2346
+2019-20,14,Table Order 16,L 7/12mo and 13/18mo,525,2103
+2020-21,14,Table Order 16,L 7/12mo and 13/18mo,734,2932
+2019-20,13,Table Order 17,L 13/18mo and None,299,1317
+2020-21,13,Table Order 17,L 13/18mo and None,481,1886
+2019-20,12,Table Order 18,L 13/18mo and 19/24mo,448,1862
+2020-21,12,Table Order 18,L 13/18mo and 19/24mo,689,2596
+2019-20,11,Table Order 19,L 19/24mo and None,917,3598
+2020-21,11,Table Order 19,L 19/24mo and None,1400,5412

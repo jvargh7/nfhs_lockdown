@@ -49,6 +49,7 @@ analytic_sample <- bind_rows(
     mutate(combined_sampleweight = sampleweight*(nrow(nfhs5_exposure)/(nrow(nfhs5_exposure) + nrow(nfhs4_exposure))),
            nfhs5 = 1)) 
 
+
 # Step 2 ---- Restrict to 14 states --------
 analytic_sample_s2 <- analytic_sample  %>% 
   dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states)
