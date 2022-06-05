@@ -47,7 +47,9 @@ analytic_sample <- bind_rows(
            nfhs5 = 0),
   nfhs5_exposure %>% 
     mutate(combined_sampleweight = sampleweight*(nrow(nfhs5_exposure)/(nrow(nfhs5_exposure) + nrow(nfhs4_exposure))),
-           nfhs5 = 1)) 
+           nfhs5 = 1)) %>% 
+  dplyr::filter(!is.na(c_age)) %>% 
+  mutate(age_categories = cut(c_age,breaks=seq(0,60,by=3),right=FALSE,include.lowest=TRUE))
 
 
 # Step 2 ---- Restrict to 14 states --------

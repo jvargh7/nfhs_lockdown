@@ -38,3 +38,4 @@ dates <- analytic_sample %>%
 
 dates %>% 
   write_csv(.,"paper/table_counts by period of exposure.csv")
+

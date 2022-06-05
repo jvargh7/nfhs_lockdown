@@ -8,7 +8,7 @@ analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample
 require(splines)
 
 plotA <- analytic_sample %>% 
-
+  dplyr::filter(m_rural == 0) %>% 
   ggplot(data=.,aes(x=c_age,y=c_stunting*100,group=phase,col=phase)) +
   coord_cartesian(ylim =c(0,50)) +
   geom_smooth(method="lm",formula=y ~ ns(x,4),fill="grey80") +
@@ -19,7 +19,7 @@ plotA <- analytic_sample %>%
   theme(legend.text = element_text(size = 14))
 
 plotB <- analytic_sample %>% 
-
+  dplyr::filter(m_rural == 0) %>% 
   ggplot(data=.,aes(x=c_age,y=c_underweight*100,group=phase,col=phase))   +
   coord_cartesian(ylim =c(0,50)) +
   geom_smooth(method="lm",formula=y ~ ns(x,4),fill="grey80") +
@@ -30,6 +30,7 @@ plotB <- analytic_sample %>%
   theme(legend.text = element_text(size = 14))
 
 plotC <- analytic_sample  %>% 
+  dplyr::filter(m_rural == 0) %>% 
   ggplot(data=.,aes(x=c_age,y=c_wasting*100,group=phase,col=phase))   +
   coord_cartesian(ylim =c(0,50)) +
   geom_smooth(method="lm",formula=y ~ ns(x,4),fill="grey80") +
@@ -40,10 +41,10 @@ plotC <- analytic_sample  %>%
   theme(legend.text = element_text(size = 14))
 
 plotD <- analytic_sample %>% 
-  mutate(m_rural = factor(m_rural,levels=c(0,1),labels=c("Urban","Rural"))) %>% 
+  dplyr::filter(m_rural == 1) %>% 
   ggplot(data=.,aes(x=c_age,y=c_stunting*100,group=interaction(phase,m_rural),col=phase)) +
   coord_cartesian(ylim =c(0,50)) +
-  geom_smooth(method="lm",aes(linetype=m_rural),formula=y ~ ns(x,4),fill="grey80") +
+  geom_smooth(method="lm",formula=y ~ ns(x,4),fill="grey80") +
   theme_bw() +
   xlab("Age in months") +
   ylab("Prevalence (%)") +
@@ -52,10 +53,10 @@ plotD <- analytic_sample %>%
   theme(legend.text = element_text(size = 14))
 
 plotE <- analytic_sample %>% 
-  mutate(m_rural = factor(m_rural,levels=c(0,1),labels=c("Urban","Rural"))) %>% 
+  dplyr::filter(m_rural == 1) %>% 
   ggplot(data=.,aes(x=c_age,y=c_underweight*100,group=interaction(phase,m_rural),col=phase)) +
   coord_cartesian(ylim =c(0,50)) +
-  geom_smooth(method="lm",aes(linetype=m_rural),formula=y ~ ns(x,4),fill="grey80") +
+  geom_smooth(method="lm",formula=y ~ ns(x,4),fill="grey80") +
   theme_bw() +
   xlab("Age in months") +
   ylab("Prevalence (%)") +
@@ -64,10 +65,10 @@ plotE <- analytic_sample %>%
   theme(legend.text = element_text(size = 14))
 
 plotF <- analytic_sample %>% 
-  mutate(m_rural = factor(m_rural,levels=c(0,1),labels=c("Urban","Rural"))) %>% 
+  dplyr::filter(m_rural == 1) %>% 
   ggplot(data=.,aes(x=c_age,y=c_wasting*100,group=interaction(phase,m_rural),col=phase)) +
   coord_cartesian(ylim =c(0,50)) +
-  geom_smooth(method="lm",aes(linetype=m_rural),formula=y ~ ns(x,4),fill="grey80") +
+  geom_smooth(method="lm",formula=y ~ ns(x,4),fill="grey80") +
   theme_bw() +
   xlab("Age in months") +
   ylab("Prevalence (%)") +
@@ -77,11 +78,7 @@ plotF <- analytic_sample %>%
 
 require(ggpubr)
 
-ggarrange(ggarrange(plotA,plotB,plotC,
-                    labels=LETTERS[1:3],
-                    nrow = 1,ncol=3, legend = "bottom",common.legend = TRUE),
-          ggarrange(plotD,plotE,plotF,
-                    labels=LETTERS[4:6],
-                    nrow = 1,ncol=3, legend = "bottom",common.legend = TRUE),
-          nrow = 2,ncol=1) %>% 
+ggarrange(plotA,plotB,plotC,
+          plotD,plotE,plotF,
+          nrow = 2,ncol=3,labels = LETTERS[1:6],common.legend = TRUE,legend = "bottom") %>% 
   ggsave(.,filename=paste0(path_lockdown_folder,"/figures/figure_age trends in prevalence.png"),width = 15,height=6)
