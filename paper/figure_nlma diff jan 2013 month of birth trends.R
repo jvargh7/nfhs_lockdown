@@ -4,22 +4,32 @@ overlap_predictions <- bind_rows(
   read_csv("main analysis/nlma03r_prediction for unique months and year for rural.csv") %>% mutate(m_rural = "Rural")) %>% 
   dplyr::filter(dates > "2012-11-30")
 
+
+jan13_predictions <- overlap_predictions %>% 
+  dplyr::filter(dates == "2013-01-01") %>% 
+  dplyr::select(m_rural,starts_with("mean")) %>% 
+  rename_at(vars(starts_with("mean")),~str_replace(.,"mean","jan2013"))
+
+overlap_predictions2 <- overlap_predictions %>% 
+  left_join(jan13_predictions,
+            by = "m_rural") %>% 
+  mutate(diff_pred_e_stunting = mean_pred_e_stunting - jan2013_pred_e_stunting,
+         diff_pred_e_underweight = mean_pred_e_underweight - jan2013_pred_e_underweight,
+         diff_pred_e_wasting = mean_pred_e_wasting - jan2013_pred_e_wasting)
+
 require(lubridate)
-limits_axis = c(0,35)
+limits_axis = c(-5,5)
 
-figA <- overlap_predictions %>% 
-  mutate(est = mean_pred_e_stunting*100,
-         lci = (mean_pred_e_stunting - 1.96*se_pred_e_stunting)*100,
-         uci = (mean_pred_e_stunting + 1.96*se_pred_e_stunting)*100) %>% 
-  ggplot(data=.,aes(x=dates,y=est,ymin = lci,ymax=uci,group = m_rural,col=m_rural))  +
+figA <- overlap_predictions2 %>% 
+  mutate(est = diff_pred_e_stunting*100) %>% 
+  ggplot(data=.,aes(x=dates,y=est,group = m_rural,col=m_rural))  +
   geom_path() +
-  geom_smooth(se = FALSE,linetype=2,size=0.8)  +
+  # geom_smooth(se = FALSE,method = "gam",linetype=2,size=0.8)  +
   scale_color_manual(name="",values=c("darkgreen","purple")) +
-  geom_ribbon(alpha = 0.5,fill="grey80",col=NA) +
-  
+
   xlab("Date of Birth") +
   scale_x_date(date_breaks = "6 months",date_labels =  "%b\n %Y") +
-  ylab("Prevalence (%)") +
+  ylab("Prevalence Difference (%)") +
   scale_y_continuous(limits=limits_axis) +
   theme_bw() +
   # theme(axis.text.x = element_text(angle=45)) +
@@ -30,19 +40,16 @@ figA <- overlap_predictions %>%
   geom_rect(xmin = as_date(demonetization_start),xmax = as_date(demonetization_stop),ymin = -10,ymax = 60,fill="grey80",alpha=0.01,col=NA) +
   geom_rect(xmin = as_date(lockdown_start),xmax = as_date(lockdown_stop),ymin = -10,ymax = 60,fill="grey80",alpha=0.01,col=NA)
 
-figB <- overlap_predictions %>% 
-  mutate(est = mean_pred_e_underweight*100,
-         lci = (mean_pred_e_underweight - 1.96*se_pred_e_underweight)*100,
-         uci = (mean_pred_e_underweight + 1.96*se_pred_e_underweight)*100) %>% 
-  ggplot(data=.,aes(x=dates,y=est,ymin = lci,ymax=uci,group = m_rural,col=m_rural))  +
+figB <- overlap_predictions2 %>% 
+  mutate(est = diff_pred_e_underweight*100) %>% 
+  ggplot(data=.,aes(x=dates,y=est,group = m_rural,col=m_rural))  +
   geom_path() +
-  geom_smooth(se = FALSE,linetype=2,size=0.8)  +
+  # geom_smooth(se = FALSE,method = "gam",linetype=2,size=0.8)  +
   scale_color_manual(name="",values=c("darkgreen","purple")) +
-  geom_ribbon(alpha = 0.5,fill="grey80",col=NA) +
   
   xlab("Date of Birth") +
   scale_x_date(date_breaks = "6 months",date_labels =  "%b\n %Y") +
-  ylab("Prevalence (%)") +
+  ylab("Prevalence Difference (%)") +
   scale_y_continuous(limits=limits_axis) +
   theme_bw() +
   # theme(axis.text.x = element_text(angle=45)) +
@@ -53,19 +60,16 @@ figB <- overlap_predictions %>%
   geom_rect(xmin = as_date(demonetization_start),xmax = as_date(demonetization_stop),ymin = -10,ymax = 60,fill="grey80",alpha=0.01,col=NA) +
   geom_rect(xmin = as_date(lockdown_start),xmax = as_date(lockdown_stop),ymin = -10,ymax = 60,fill="grey80",alpha=0.01,col=NA)
 
-figC <- overlap_predictions %>% 
-  mutate(est = mean_pred_e_wasting*100,
-         lci = (mean_pred_e_wasting - 1.96*se_pred_e_wasting)*100,
-         uci = (mean_pred_e_wasting + 1.96*se_pred_e_wasting)*100) %>% 
-  ggplot(data=.,aes(x=dates,y=est,ymin = lci,ymax=uci,group = m_rural,col=m_rural))  +
+figC <- overlap_predictions2 %>% 
+  mutate(est = diff_pred_e_wasting*100) %>% 
+  ggplot(data=.,aes(x=dates,y=est,group = m_rural,col=m_rural))  +
   geom_path() +
-  geom_smooth(se = FALSE,linetype=2,size=0.8)  +
+  # geom_smooth(se = FALSE,method = "gam",linetype=2,size=0.8)  +
   scale_color_manual(name="",values=c("darkgreen","purple")) +
-  geom_ribbon(alpha = 0.5,fill="grey80",col=NA) +
   
   xlab("Date of Birth") +
   scale_x_date(date_breaks = "6 months",date_labels =  "%b\n %Y") +
-  ylab("Prevalence (%)") +
+  ylab("Prevalence Difference (%)") +
   scale_y_continuous(limits=limits_axis) +
   theme_bw() +
   # theme(axis.text.x = element_text(angle=45)) +
@@ -83,5 +87,5 @@ ggarrange(figA,
           figB,
           figC,
           labels=c("A","B","C"),nrow=3,ncol=1,common.legend = TRUE,legend="bottom") %>% 
-  ggsave(.,filename=paste0(path_lockdown_folder,"/figures/nlma_month of birth trends.png"),width=8,height = 10)
+  ggsave(.,filename=paste0(path_lockdown_folder,"/figures/nlma_diff 2013 month of birth trends.png"),width=8,height = 10)
 
