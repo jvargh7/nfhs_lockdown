@@ -10,7 +10,8 @@ nfhs5 <- read_dta(paste0(path_dhs_data,"/IA/IAKR7ADT/IAKR7AFL.dta"),col_select =
   
   mutate(sampleweight = v005/(10^6)) %>% 
   
-  mutate(hw16 = case_when(is.na(hw16) | hw16 == 98 ~ 15,
+  mutate(c_day_orig = hw16,
+         hw16 = case_when(is.na(hw16) | hw16 == 98 ~ 15,
                           b1 == 2 & b2 %in% c(2008,2012,2016,2020) & hw16 > 29 ~ 29,
                           b1 == 2 & hw16 > 28 ~ 28,
                           b1 %in% c(4,6,9,11) & hw16 > 30 ~ 30,

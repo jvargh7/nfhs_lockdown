@@ -64,6 +64,12 @@ analytic_sample_s3 <- analytic_sample_s2 %>%
 
 table(analytic_sample_s3$phase,useNA="always")
 
+# View(analytic_sample_s3 %>% mutate(day_flag = case_when(is.na(c_day_orig) | c_day_orig == 98 ~ -1,
+#                                                         month(c_dob) == 2 & year(c_dob) %in% c(2008,2012,2016,2020) & c_day_orig > 29 ~ 1,
+#                                                         month(c_dob) == 2 & c_day_orig > 28 ~ 1,
+#                                                         month(c_dob) %in% c(4,6,9,11) & c_day_orig > 30 ~ 1,
+#                                                         TRUE ~ 0)) %>% group_by(day_flag) %>% tally())
+
 saveRDS(analytic_sample_s3,paste0(path_lockdown_folder,"/working/analytic_sample.RDS"))
 
 

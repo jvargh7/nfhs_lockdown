@@ -10,11 +10,13 @@ nfhs4 <- read_dta(paste0(path_dhs_data,"/IA/IAKR74DT/IAKR74FL.dta"),col_select =
 
   mutate(sampleweight = v005/(10^6)) %>% 
   
-  mutate(hw16 = case_when(is.na(hw16) | hw16 == 98 ~ 15,
+  mutate(c_day_orig = hw16,
+         hw16 = case_when(is.na(hw16) | hw16 == 98 ~ 15,
                           b1 == 2 & b2 %in% c(2008,2012,2016,2020) & hw16 > 29 ~ 29,
                           b1 == 2 & hw16 > 28 ~ 28,
                           b1 %in% c(4,6,9,11) & hw16 > 30 ~ 30,
                           TRUE ~ as.numeric(hw16)),
+         
          v016 = case_when(is.na(v016) | v016 == 98 ~ 15,
                           v006 == 2 & v006 %in% c(2008,2012,2016,2020) & v016 > 29 ~ 29,
                           v006 == 2 & v016 > 28 ~ 28,
