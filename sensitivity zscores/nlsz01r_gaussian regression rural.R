@@ -1,15 +1,8 @@
 require(survey)
 require(splines)
 
-overlaps_unique <- readRDS("data/overlaps.RDS") %>% 
-  dplyr::select(ends_with("_d")) %>% 
-  distinct_at(vars(starts_with("e"))) %>% 
-  mutate(e_interaction = 1:nrow(.))
-
-analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample.RDS")) %>% 
-  dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states) %>% 
-  left_join(overlaps_unique,
-            by=c(names(overlaps_unique)[-11])) %>% 
+source("main analysis/nlma_analytic sample.R")
+analytic_sample <- nlma_analytic_sample %>% 
   dplyr::filter(m_rural == 1)
 
 

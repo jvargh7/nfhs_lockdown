@@ -6,7 +6,8 @@ summary_e_interaction <- readRDS(paste0(path_lockdown_folder,"/working/nlse/nlse
   dplyr::summarise(daterange = paste0(format(min(c_dob),"%d-%m-%Y")," to ",format(max(c_dob),"%d-%m-%Y")))
 
 summary_e_interaction_region <- readRDS(paste0(path_lockdown_folder,"/working/nlse/nlse_analytic_sample.RDS")) %>% 
-  mutate(year_categories = case_when(year(c_dob) %in% c(2018) ~ "2018",
+  mutate(year_categories = case_when(year(c_dob) %in% c(2019,2020) ~ "2019-20",
+                                     year(c_dob) %in% c(2018) ~ "2018",
                                      year(c_dob) %in% c(2017) & month(c_dob) %in% c(11:12) ~ "2018",
                                      year(c_dob) %in% c(2017) & month(c_dob) %in% c(3) ~ "2017",
                                      year(c_dob) %in% c(2016) ~ "2016",

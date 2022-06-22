@@ -22,6 +22,8 @@ nlse_analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_s
   left_join(overlaps_dates,
             by=c("c_dob" = "dates")) %>% 
   left_join(overlaps_unique,
-            by=c(names(overlaps_unique)[-11]))
+            by=c(names(overlaps_unique)[-11]))  %>% 
+  mutate(e_interaction = case_when(phase == 1 & e_interaction > 6 ~ as.integer(1),
+                                   TRUE ~ e_interaction))
 
 saveRDS(nlse_analytic_sample,paste0(path_lockdown_folder,"/working//nlse/nlse_analytic_sample.RDS"))
