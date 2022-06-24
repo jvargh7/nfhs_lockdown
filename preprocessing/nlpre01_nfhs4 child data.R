@@ -74,6 +74,8 @@ nfhs4 <- read_dta(paste0(path_dhs_data,"/IA/IAKR74DT/IAKR74FL.dta"),col_select =
   mutate(v445 = case_when(v454 == 1 ~ NA_real_,
                           v445 > 6000 ~ NA_real_,
                           TRUE ~ v445/100),
+         m_height = case_when(v438 > 2500 ~ NA_real_,
+                              TRUE ~ v438/10),
          m_weightstatus = case_when(v445 < 18.5 ~ "Underweight",
                                     v445 < 25 ~ "Normal",
                                     v445 >= 25 ~ "Overweight or Obese",

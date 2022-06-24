@@ -1,3 +1,17 @@
+overlaps_unique <- readRDS("data/overlaps.RDS") %>% 
+  dplyr::select(ends_with("_d")) %>% 
+  distinct_at(vars(starts_with("e"))) %>% 
+  mutate(e_interaction = 1:nrow(.))
+
+overlaps_months <- readRDS("data/overlaps.RDS")  %>% 
+  dplyr::select(dates,ends_with("_d")) %>% 
+  mutate(month = month(dates),
+         year = year(dates)) %>% 
+  distinct_at(vars(month,year,ends_with("_d")),.keep_all = TRUE) %>% 
+  left_join(overlaps_unique,
+            by=c(names(overlaps_unique)[-11])) 
+
+
 set.seed(2022)
 sdistri_nfhs5 <- readRDS("data/sdist_nfhs4.RDS") %>% 
   group_by(sdistri) %>% 
@@ -33,15 +47,11 @@ nfhs5_exposure <- readRDS(paste0(path_lockdown_folder,"/working/nfhs5_exposure.R
   mutate(sdistri = lapply(.$sdistri_list,function(x) ifelse(length(x) == 1,x, sample(x,1))) %>% as.numeric(),
          sdist = as.numeric(sdist)) %>% 
   rename(
-         v024_nfhs5 = v024) %>% 
+    v024_nfhs5 = v024) %>% 
   dplyr::select(-sdistri_list)
 
 
-
-
-
-
-analytic_sample <- bind_rows(
+nlsd_analytic_sample <- bind_rows(
   nfhs4_exposure %>% 
     mutate(combined_sampleweight = sampleweight*(nrow(nfhs4_exposure)/(nrow(nfhs4_exposure) + nrow(nfhs5_exposure))),
            nfhs5 = 0),
@@ -49,27 +59,12 @@ analytic_sample <- bind_rows(
     mutate(combined_sampleweight = sampleweight*(nrow(nfhs5_exposure)/(nrow(nfhs5_exposure) + nrow(nfhs4_exposure))),
            nfhs5 = 1)) %>% 
   dplyr::filter(!is.na(c_age)) %>% 
-  mutate(age_categories = cut(c_age,breaks=seq(0,60,by=3),right=FALSE,include.lowest=TRUE))
-
-
-# Step 2 ---- Restrict to 14 states --------
-analytic_sample_s2 <- analytic_sample  %>% 
-  dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states)
-
-table(analytic_sample_s2$phase,useNA="always")
-
-# Step 3 -----Restrict to non-NA values --------
-analytic_sample_s3 <- analytic_sample_s2 %>% 
-  dplyr::filter(!is.na(c_haz) & !is.na(c_waz) & !is.na(c_whz) & !is.na(m_height))
-
-table(analytic_sample_s3$phase,useNA="always")
-
-# View(analytic_sample_s3 %>% mutate(day_flag = case_when(is.na(c_day_orig) | c_day_orig == 98 ~ -1,
-#                                                         month(c_dob) == 2 & year(c_dob) %in% c(2008,2012,2016,2020) & c_day_orig > 29 ~ 1,
-#                                                         month(c_dob) == 2 & c_day_orig > 28 ~ 1,
-#                                                         month(c_dob) %in% c(4,6,9,11) & c_day_orig > 30 ~ 1,
-#                                                         TRUE ~ 0)) %>% group_by(day_flag) %>% tally())
-
-saveRDS(analytic_sample_s3,paste0(path_lockdown_folder,"/working/analytic_sample.RDS"))
-
-
+  mutate(age_categories = cut(c_age,breaks=seq(0,60,by=3),right=FALSE,include.lowest=TRUE)) %>% 
+  dplyr::filter(!is.na(c_haz) & !is.na(c_waz) & !is.na(c_whz) & !is.na(m_height)) %>% 
+  dplyr::filter(phase == 1 | is.na(phase))  %>% 
+  left_join(overlaps_unique,
+            by=c(names(overlaps_unique)[-11])) %>% 
+  mutate(e_interaction = case_when(phase == 1 & e_interaction > 10 ~ as.integer(1),
+                                   TRUE ~ e_interaction))
+saveRDS(nlsd_analytic_sample,paste0(path_lockdown_folder,"/working/nlsd/nlsd_analytic_sample.RDS"))
+rm(nfhs4_exposure,nfhs5_exposure)
