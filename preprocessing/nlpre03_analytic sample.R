@@ -51,12 +51,18 @@ analytic_sample <- bind_rows(
   dplyr::filter(!is.na(c_age)) %>% 
   mutate(age_categories = cut(c_age,breaks=seq(0,60,by=3),right=FALSE,include.lowest=TRUE))
 
+analytic_sample %>% 
+  dplyr::filter(!v024_nfhs5 %in% v024_nfhs5_14states) %>% 
+saveRDS(.,paste0(path_lockdown_folder,"/working/excluded_states.RDS"))
 
 # Step 2 ---- Restrict to 14 states --------
 analytic_sample_s2 <- analytic_sample  %>% 
   dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states)
 
 table(analytic_sample_s2$phase,useNA="always")
+analytic_sample_s2 %>% 
+  dplyr::filter(is.na(c_haz) | is.na(c_waz) | is.na(c_whz) | is.na(m_height)) %>% 
+  saveRDS(.,paste0(path_lockdown_folder,"/working/excluded_anthro.RDS"))
 
 # Step 3 -----Restrict to non-NA values --------
 analytic_sample_s3 <- analytic_sample_s2 %>% 
