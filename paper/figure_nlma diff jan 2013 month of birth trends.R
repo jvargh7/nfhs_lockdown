@@ -23,8 +23,8 @@ limits_axis = c(-5,5)
 figA <- overlap_predictions2 %>% 
   mutate(est = diff_pred_e_stunting*100) %>% 
   ggplot(data=.,aes(x=dates,y=est,group = m_rural,col=m_rural))  +
-  geom_path() +
-  # geom_smooth(se = FALSE,method = "gam",linetype=2,size=0.8)  +
+  # geom_path() +
+  geom_smooth(se = FALSE,method = "gam",linetype=2,size=0.8)  +
   scale_color_manual(name="",values=c("darkgreen","purple")) +
 
   xlab("Date of Birth") +
@@ -43,8 +43,8 @@ figA <- overlap_predictions2 %>%
 figB <- overlap_predictions2 %>% 
   mutate(est = diff_pred_e_underweight*100) %>% 
   ggplot(data=.,aes(x=dates,y=est,group = m_rural,col=m_rural))  +
-  geom_path() +
-  # geom_smooth(se = FALSE,method = "gam",linetype=2,size=0.8)  +
+  # geom_path() +
+  geom_smooth(se = FALSE,method = "gam",linetype=2,size=0.8)  +
   scale_color_manual(name="",values=c("darkgreen","purple")) +
   
   xlab("Date of Birth") +
@@ -63,8 +63,8 @@ figB <- overlap_predictions2 %>%
 figC <- overlap_predictions2 %>% 
   mutate(est = diff_pred_e_wasting*100) %>% 
   ggplot(data=.,aes(x=dates,y=est,group = m_rural,col=m_rural))  +
-  geom_path() +
-  # geom_smooth(se = FALSE,method = "gam",linetype=2,size=0.8)  +
+  # geom_path() +
+  geom_smooth(se = FALSE,method = "gam",linetype=2,size=0.8)  +
   scale_color_manual(name="",values=c("darkgreen","purple")) +
   
   xlab("Date of Birth") +

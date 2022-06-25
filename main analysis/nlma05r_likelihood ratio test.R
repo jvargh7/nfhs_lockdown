@@ -16,7 +16,8 @@ glm_stunting_pooled <- svyglm(as_formula(paste0("c_stunting ~ factor(e_interacti
 glm_stunting_stratified <- svyglm(as_formula(paste0("c_stunting ~ factor(e_interaction)*m_rural",interaction_covariates)),design = analytic_survey,
                        family = quasipoisson())
 
-anova(glm_stunting_pooled,glm_stunting_stratified,test = "F",method = "LRT")
+anova(glm_stunting_pooled,glm_stunting_stratified,test = "F",method = "LRT") %>% 
+  print(.)
 gc()
 
 glm_underweight_pooled <- svyglm(as_formula(paste0("c_underweight ~ factor(e_interaction) + m_rural",region_covariates)),design = analytic_survey,
@@ -25,7 +26,8 @@ glm_underweight_pooled <- svyglm(as_formula(paste0("c_underweight ~ factor(e_int
 glm_underweight_stratified <- svyglm(as_formula(paste0("c_underweight ~ factor(e_interaction)*m_rural",interaction_covariates)),design = analytic_survey,
                                   family = quasipoisson())
 
-anova(glm_underweight_pooled,glm_underweight_stratified,test = "F",method = "LRT")
+anova(glm_underweight_pooled,glm_underweight_stratified,test = "F",method = "LRT") %>% 
+  print(.)
 gc()
 
 glm_wasting_pooled <- svyglm(as_formula(paste0("c_wasting ~ factor(e_interaction) + m_rural",region_covariates)),design = analytic_survey,
