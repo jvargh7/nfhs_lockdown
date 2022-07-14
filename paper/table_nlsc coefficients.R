@@ -10,6 +10,7 @@ summary_e_interaction <- readRDS(paste0(path_lockdown_folder,"/working/analytic_
   left_join(overlaps_unique,
             by=c(names(overlaps_unique)[-11])) %>% 
   mutate(e_interaction = case_when(phase == 1 & e_interaction > 10 ~ as.integer(1),
+                                   is.na(phase) & e_interaction > 1 ~ as.integer(1),
                                    TRUE ~ e_interaction)) %>% 
   group_by(e_interaction) %>% 
   dplyr::summarise(daterange = paste0(format(min(c_dob),"%d-%m-%Y")," to ",format(max(c_dob),"%d-%m-%Y")))
@@ -21,6 +22,7 @@ summary_e_interaction_region <- readRDS(paste0(path_lockdown_folder,"/working/an
   left_join(overlaps_unique,
             by=c(names(overlaps_unique)[-11])) %>% 
   mutate(e_interaction = case_when(phase == 1 & e_interaction > 10 ~ as.integer(1),
+                                   is.na(phase) & e_interaction > 1 ~ as.integer(1),
                                    TRUE ~ e_interaction)) %>% 
   mutate(year_categories = case_when(year(c_dob) %in% c(2019,2020) ~ "2019-20",
                                      year(c_dob) %in% c(2017,2018) ~ "2017-18",
@@ -41,6 +43,7 @@ readRDS(paste0(path_lockdown_folder,"/working/analytic_sample.RDS")) %>%
   left_join(overlaps_unique,
             by=c(names(overlaps_unique)[-11])) %>% 
   mutate(e_interaction = case_when(phase == 1 & e_interaction > 10 ~ as.integer(1),
+                                   is.na(phase) & e_interaction > 1 ~ as.integer(1),
                                    TRUE ~ e_interaction)) %>%
   dplyr::filter(e_interaction == 1) %>%
   group_by(year(c_dob)) %>%

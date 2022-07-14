@@ -23,6 +23,7 @@ analytic_sample %>%
 
 
 dates_exp <- analytic_sample %>% 
+  dplyr::filter(e_interaction > 1) %>% 
   dplyr::select(c_dob,phase,ends_with("_d"),-contains("sum")) %>%
   pivot_longer(cols=-one_of("c_dob","phase"),names_to="exp_period",values_to="value") %>% 
   dplyr::filter(value!=0) %>% 
@@ -32,7 +33,8 @@ dates_exp <- analytic_sample %>%
                    n = sum(value) %>% as.character(.)) 
 
 dates_unexp1 <- analytic_sample %>% 
-  dplyr::filter(e1_p1_d == 0, e1_p2_d == 0, e1_p3_d == 0, e1_p4_d == 0, e1_p5_d == 0) %>% 
+  
+  dplyr::filter(is.na(phase)|(e1_p1_d == 0 & e1_p2_d == 0 & e1_p3_d == 0 & e1_p4_d == 0 & e1_p5_d == 0)) %>% 
   group_by(phase) %>% 
   summarize(min = min(c_dob),
             max = max(c_dob),

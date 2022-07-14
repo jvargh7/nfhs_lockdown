@@ -65,6 +65,7 @@ nlsd_analytic_sample <- bind_rows(
   left_join(overlaps_unique,
             by=c(names(overlaps_unique)[-11])) %>% 
   mutate(e_interaction = case_when(phase == 1 & e_interaction > 10 ~ as.integer(1),
+                                   is.na(phase) & e_interaction > 1 ~ as.integer(1),
                                    TRUE ~ e_interaction))
 saveRDS(nlsd_analytic_sample,paste0(path_lockdown_folder,"/working/nlsd/nlsd_analytic_sample.RDS"))
 rm(nfhs4_exposure,nfhs5_exposure)

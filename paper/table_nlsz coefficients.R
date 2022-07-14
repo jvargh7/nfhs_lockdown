@@ -9,6 +9,7 @@ summary_e_interaction <- readRDS(paste0(path_lockdown_folder,"/working/analytic_
   left_join(overlaps_unique,
             by=c(names(overlaps_unique)[-11])) %>% 
   mutate(e_interaction = case_when(phase == 1 & e_interaction > 10 ~ as.integer(1),
+                                   is.na(phase) & e_interaction > 1 ~ as.integer(1),
                                    TRUE ~ e_interaction)) %>% 
   group_by(e_interaction) %>% 
   dplyr::summarise(daterange = paste0(format(min(c_dob),"%d-%m-%Y")," to ",format(max(c_dob),"%d-%m-%Y")))
