@@ -7,7 +7,7 @@ Jithin Sam Varghese (1), Melissa A. Chapnick (2), John A. Maluccio (3), Aryeh D.
 2 Nutrition and Health Sciences Program, Laney Graduate School, Emory University, Atlanta, GA, USA   
 3 Department of Economics, Middlebury College, Middlebury, VT, USA   
 
-##Background
+## Background
 Exposure to negative economic shocks during ‘the first 1000 days’ from conception to the second birthday may adversely impact child growth and development. Between 2015 and 2020, India experienced a currency demonetization event followed by the COVID-19 pandemic lockdown. The purpose of this study is to assess the extent to which exposure to these two shocks predicts growth faltering among children under 5 years.    
 ## Methods
 Using serial cross-sectional data from the Indian National Family Health Surveys (n = 237,088), we studied the association of 18 potential periods of exposure in the first 1000 days to demonetization and COVID-19 lockdowns in 14 states with stunting (HAZ < -2SD), underweight (WAZ < -2SD) and wasting (WHZ < -2SD). We used survey-weighted Poisson regressions with robust standard errors after adjusting for child, maternal and household covariates, as well as fixed effects for survey round, district and month of measurement.     
