@@ -14,7 +14,7 @@ overlaps_unique <- readRDS("data/overlaps.RDS") %>%
   distinct_at(vars(starts_with("e"))) %>% 
   mutate(e_interaction = 1:nrow(.))
 
-saveRDS(overlaps_unique,paste0(path_lockdown_folder,"/working//nlse/nlse_overlaps_unique.RDS"))
+saveRDS(overlaps_unique,paste0(path_lockdown_folder,"/working/nlse/nlse_overlaps_unique.RDS"))
 
 nlse_analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample.RDS")) %>% 
   dplyr::filter(v024_nfhs5 %in% v024_nfhs5_14states) %>% 
@@ -27,4 +27,4 @@ nlse_analytic_sample <- readRDS(paste0(path_lockdown_folder,"/working/analytic_s
                                    is.na(phase) & e_interaction > 1 ~ as.integer(1),
                                    TRUE ~ e_interaction))
 
-saveRDS(nlse_analytic_sample,paste0(path_lockdown_folder,"/working//nlse/nlse_analytic_sample.RDS"))
+saveRDS(nlse_analytic_sample,paste0(path_lockdown_folder,"/working/nlse/nlse_analytic_sample.RDS"))
