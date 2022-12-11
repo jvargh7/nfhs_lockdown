@@ -1,4 +1,4 @@
-reference_hospitalization <- read_csv(paste0(path_lockdown_folder,"/working/ihme-covid19/2021-05-06/reference_hospitalization_all_locs.csv"))
+reference_hospitalization <- read_csv(paste0(path_lockdown_folder,"/working/ihme-covid19/2021-09-02/reference_hospitalization_all_locs.csv"))
 
 unique_location_id <- reference_hospitalization %>% 
   dplyr::distinct(location_id,location_name) %>% 
@@ -103,7 +103,9 @@ india_cmi_imputed_step2 = bind_rows(india_cmi_imputed_step1,
                                     
                                     chandigarh_cmi,
                                     puducherry_cmi
-                                    )
+                                    ) %>% 
+  mutate(mobility_composite = case_when(mobility_composite > 0 ~ 0,
+                                        TRUE ~ mobility_composite))
   
 
 View(india_cmi_imputed_step2 %>% group_by(location_id,location_name) %>% tally())

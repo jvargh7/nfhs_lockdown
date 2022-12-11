@@ -51,17 +51,15 @@ analytic_sample_s3p2 <- analytic_sample_s3 %>%
                      p2_estimate = NA,
                      p3_estimate = NA,
                      p4_estimate = NA,
-                     p5_estimate =NA,
                      p1_n = NA,
                      p2_n = NA,
                      p3_n = NA,
-                     p4_n = NA,
-                     p5_n = NA)
+                     p4_n = NA)
         })
     })
   )  %>% 
   # Impute number of observations used as 0
-  mutate_at(vars(matches("_n$")),.funs = function(x) case_when(is.na(x) ~ 0,
+  mutate_at(vars(matches("(_n|_gt20)$")),.funs = function(x) case_when(is.na(x) ~ 0,
                                                                TRUE ~ as.numeric(x)))
 
 

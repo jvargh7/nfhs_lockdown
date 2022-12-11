@@ -3,7 +3,8 @@ source("analysis/nla_analytic sample processing.R")
 source("C:/code/external/functions/survey/svysummary.R")
 
 c_vars = c("c_haz","c_waz","c_whz","m_age","m_height","m_bmi",
-           "exposure_estimate","p1_estimate","p2_estimate","p3_estimate","p4_estimate","p5_estimate")
+           "exposure_estimate","p1_estimate","p2_estimate","p3_estimate","p4_estimate",
+           "exposure_gt20","p1_gt20","p2_gt20","p3_gt20","p4_gt20")
 p_vars = c("c_stunting","c_underweight","c_wasting","c_overweight")
 g_vars = c("m_caste","m_wealthq","m_religion","m_education","m_weightstatus")
 

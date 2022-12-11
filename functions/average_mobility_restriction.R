@@ -23,51 +23,38 @@ average_mobility_restriction <- function(child_dob,state_id,district_id,measurem
   exposure <- exposure %>% 
     mutate(period = case_when(date >= (child_dob - (38*7)) &  date < child_dob ~ "p1_estimate",
                               date >= child_dob & date < (child_dob + (30.5*6)) ~ "p2_estimate",
-                              date >= (child_dob + (30.5*6)) & date < (child_dob + (30.5*12)) ~ "p3_estimate",
-                              date >= (child_dob + (30.5*12)) & date < (child_dob + (30.5*18)) ~ "p4_estimate",
-                              date >= (child_dob + (30.5*18)) & date <= (child_dob + 733) ~ "p5_estimate",
-                              TRUE ~ NA_character_))
+                              date >= (child_dob + (30.5*6)) & date < (child_dob + (30.5*24)) ~ "p3_estimate",
+                              TRUE ~ "p4_estimate"))
   
   
   exposure_estimate = exposure %>% 
-    dplyr::filter(date >= child_dob - 38*7, date <= child_dob + 733) %>% 
-    dplyr::summarize(exposure_estimate = mean(mobility_composite,na.rm=TRUE))
+    dplyr::filter(date >= child_dob - 38*7) %>% 
+    dplyr::summarize(exposure_estimate = mean(mobility_composite,na.rm=TRUE),
+                     exposure_gt20 = sum(mobility_composite < (-20),na.rm=TRUE),
+                     exposure_n = sum(!is.na(mobility_composite)))
   
   period_estimates = exposure %>% 
-    dplyr::filter(date >= child_dob - 38*7, date <= child_dob + 733) %>% 
+    dplyr::filter(date >= child_dob - 38*7) %>% 
     group_by(period) %>% 
     summarize(est = mean(mobility_composite,na.rm=TRUE),
+              gt20 = sum(mobility_composite < (-20),na.rm=TRUE),
               n = sum(!is.na(mobility_composite))) %>% 
     ungroup()
     
-  # 
-  # p1_estimate = exposure  %>% 
-  #   dplyr::filter(date >= child_dob - 38*7, date < child_dob) %>% 
-  #   dplyr::summarize(acmi = mean(mobility_composite,na.rm=TRUE))
-  # 
-  # p2_estimate = exposure  %>% 
-  #   dplyr::filter(date >= child_dob, date < child_dob + 30.5*6) %>% 
-  #   dplyr::summarize(acmi = mean(mobility_composite,na.rm=TRUE))
-  # 
-  # p3_estimate = exposure  %>% 
-  #   dplyr::filter(date >= child_dob + 30.5*6, date < child_dob + 30.5*12) %>% 
-  #   dplyr::summarize(acmi = mean(mobility_composite,na.rm=TRUE))
-  # 
-  # p4_estimate = exposure  %>% 
-  #   dplyr::filter(date >= child_dob + 30.5*12, date < child_dob + 30.5*18) %>% 
-  #   dplyr::summarize(acmi = mean(mobility_composite,na.rm=TRUE))
-  # 
-  # p5_estimate = exposure  %>% 
-  #   dplyr::filter(date >= child_dob + 30.5*18, date <= child_dob + 733) %>% 
-  #   dplyr::summarize(acmi = mean(mobility_composite,na.rm=TRUE))
-  
-  data.frame(exposure_estimate = exposure_estimate) %>% 
+
+  exposure_estimate %>%  
     bind_cols(period_estimates %>% 
-                dplyr::select(-n) %>% 
+                dplyr::select(-n,-gt20) %>% 
                 pivot_wider(names_from="period",values_from="est"),
+              
+              period_estimates %>% 
+                mutate(period = str_replace(period,"estimate","gt20")) %>% 
+                dplyr::select(-est,-n) %>% 
+                pivot_wider(names_from="period",values_from="gt20"),
+              
               period_estimates %>% 
                 mutate(period = str_replace(period,"estimate","n")) %>% 
-                dplyr::select(-est) %>% 
+                dplyr::select(-est,-gt20) %>% 
                 pivot_wider(names_from="period",values_from="n")
               ) %>% 
 

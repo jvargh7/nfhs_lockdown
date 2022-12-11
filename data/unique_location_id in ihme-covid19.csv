@@ -1,383 +1,385 @@
-location_id,location_name
-1,Global
-6,China
-8,Taiwan (Province of China)
-11,Indonesia
-13,Malaysia
-14,Maldives
-15,Myanmar
-16,Philippines
-17,Sri Lanka
-18,Thailand
-20,Viet Nam
-33,Armenia
-34,Azerbaijan
-35,Georgia
-36,Kazakhstan
-37,Kyrgyzstan
-39,Tajikistan
-41,Uzbekistan
-43,Albania
-44,Bosnia and Herzegovina
-45,Bulgaria
-46,Croatia
-47,Czechia
-48,Hungary
-49,North Macedonia
-50,Montenegro
-51,Poland
-52,Romania
-53,Serbia
-54,Slovakia
-55,Slovenia
-57,Belarus
-58,Estonia
-59,Latvia
-60,Lithuania
-61,Republic of Moldova
-62,Russian Federation
-63,Ukraine
-67,Japan
-68,Republic of Korea
-69,Singapore
-71,Australia
-72,New Zealand
-74,Andorra
-75,Austria
-76,Belgium
-77,Cyprus
-78,Denmark
-79,Finland
-80,France
-81,Germany
-82,Greece
-83,Iceland
-84,Ireland
-85,Israel
-86,Italy
-87,Luxembourg
-88,Malta
-89,Netherlands
-90,Norway
-91,Portugal
-92,Spain
-93,Sweden
-94,Switzerland
-95,United Kingdom
-97,Argentina
-98,Chile
-99,Uruguay
-101,Canada
-102,United States of America
-106,Bahamas
-107,Barbados
-109,Cuba
-111,Dominican Republic
-113,Guyana
-114,Haiti
-115,Jamaica
-118,Suriname
-119,Trinidad and Tobago
-121,Bolivia (Plurinational State of)
-122,Ecuador
-123,Peru
-125,Colombia
-126,Costa Rica
-127,El Salvador
-128,Guatemala
-129,Honduras
-130,Mexico
-131,Nicaragua
-132,Panama
-133,Venezuela (Bolivarian Republic of)
-135,Brazil
-136,Paraguay
-139,Algeria
-140,Bahrain
-141,Egypt
-142,Iran (Islamic Republic of)
-143,Iraq
-144,Jordan
-145,Kuwait
-146,Lebanon
-147,Libya
-148,Morocco
-149,Palestine
-150,Oman
-151,Qatar
-152,Saudi Arabia
-153,Syrian Arab Republic
-154,Tunisia
-155,Turkey
-156,United Arab Emirates
-157,Yemen
-160,Afghanistan
-161,Bangladesh
-163,India
-164,Nepal
-165,Pakistan
-168,Angola
-169,Central African Republic
-170,Congo
-171,Democratic Republic of the Congo
-172,Equatorial Guinea
-173,Gabon
-177,Djibouti
-179,Ethiopia
-180,Kenya
-181,Madagascar
-182,Malawi
-183,Mauritius
-184,Mozambique
-185,Rwanda
-187,Somalia
-190,Uganda
-191,Zambia
-195,Namibia
-196,South Africa
-198,Zimbabwe
-200,Benin
-201,Burkina Faso
-202,Cameroon
-203,Cabo Verde
-204,Chad
-205,Côte d'Ivoire
-206,Gambia
-207,Ghana
-208,Guinea
-209,Guinea-Bissau
-210,Liberia
-211,Mali
-212,Mauritania
-213,Niger
-214,Nigeria
-215,Sao Tome and Principe
-216,Senegal
-217,Sierra Leone
-218,Togo
-351,Guam
-354,Hong Kong Special Administrative Region of China
-385,Puerto Rico
-396,San Marino
-422,United States Virgin Islands
-433,Northern Ireland
-434,Scotland
-435,South Sudan
-492,Beijing
-493,Chongqing
-496,Guangdong
-499,Hainan
-500,Hebei
-501,Heilongjiang
-503,Hubei
-513,Shandong
-514,Shanghai
-522,Sudan
-523,Alabama
-524,Alaska
-525,Arizona
-526,Arkansas
-527,California
-528,Colorado
-529,Connecticut
-530,Delaware
-531,District of Columbia
-532,Florida
-533,Georgia
-534,Hawaii
-535,Idaho
-536,Illinois
-537,Indiana
-538,Iowa
-539,Kansas
-540,Kentucky
-541,Louisiana
-542,Maine
-543,Maryland
-544,Massachusetts
-545,Michigan
-546,Minnesota
-547,Mississippi
-548,Missouri
-549,Montana
-550,Nebraska
-551,Nevada
-552,New Hampshire
-553,New Jersey
-554,New Mexico
-555,New York
-556,North Carolina
-557,North Dakota
-558,Ohio
-559,Oklahoma
-560,Oregon
-561,Pennsylvania
-562,Rhode Island
-563,South Carolina
-564,South Dakota
-565,Tennessee
-566,Texas
-567,Utah
-568,Vermont
-569,Virginia
-570,Washington
-571,West Virginia
-572,Wisconsin
-573,Wyoming
-4636,Wales
-4643,Aguascalientes
-4644,Baja California
-4645,Baja California Sur
-4646,Campeche
-4647,Coahuila
-4648,Colima
-4649,Chiapas
-4650,Chihuahua
-4651,Mexico City
-4652,Durango
-4653,Guanajuato
-4654,Guerrero
-4655,Hidalgo
-4656,Jalisco
-4657,México
-4658,Michoacán de Ocampo
-4659,Morelos
-4660,Nayarit
-4661,Nuevo León
-4662,Oaxaca
-4663,Puebla
-4664,Querétaro
-4665,Quintana Roo
-4666,San Luis Potosí
-4667,Sinaloa
-4668,Sonora
-4669,Tabasco
-4670,Tamaulipas
-4671,Tlaxcala
-4672,Veracruz de Ignacio de la Llave
-4673,Yucatán
-4674,Zacatecas
-4749,England
-4750,Acre
-4751,Alagoas
-4752,Amazonas
-4753,Amapá
-4754,Bahia
-4755,Ceará
-4756,Distrito Federal
-4757,Espírito Santo
-4758,Goiás
-4759,Maranhão
-4760,Minas Gerais
-4761,Mato Grosso do Sul
-4762,Mato Grosso
-4763,Pará
-4764,Paraíba
-4765,Paraná
-4766,Pernambuco
-4767,Piaui
-4768,Rio de Janeiro
-4769,Rio Grande do Norte
-4770,Rondônia
-4771,Roraima
-4772,Rio Grande do Sul
-4773,Santa Catarina
-4774,Sergipe
-4775,São Paulo
-4776,Tocantins
-4841,Andhra Pradesh
-4842,Arunachal Pradesh
-4843,Assam
-4844,Bihar
-4846,Chhattisgarh
-4849,Delhi
-4850,Goa
-4851,Gujarat
-4852,Haryana
-4853,Himachal Pradesh
-4854,Jammu & Kashmir and Ladakh
-4855,Jharkhand
-4856,Karnataka
-4857,Kerala
-4859,Madhya Pradesh
-4860,Maharashtra
-4861,Manipur
-4862,Meghalaya
-4864,Nagaland
-4865,Odisha
-4867,Punjab
-4868,Rajasthan
-4870,Tamil Nadu
-4871,Telangana
-4872,Tripura
-4873,Uttar Pradesh
-4874,Uttarakhand
-4875,West Bengal
-35494,Piemonte
-35495,Valle d'Aosta
-35496,Liguria
-35497,Lombardia
-35498,Provincia autonoma di Bolzano
-35499,Provincia autonoma di Trento
-35500,Veneto
-35501,Friuli-Venezia Giulia
-35502,Emilia-Romagna
-35503,Toscana
-35504,Umbria
-35505,Marche
-35506,Lazio
-35507,Abruzzo
-35508,Molise
-35509,Campania
-35510,Puglia
-35511,Basilicata
-35512,Calabria
-35513,Sicilia
-35514,Sardegna
-43858,Alberta
-43859,British Columbia
-43860,Manitoba
-43864,Nova Scotia
-43866,Ontario
-43868,Quebec
-43869,Saskatchewan
-53615,Azad Jammu & Kashmir
-53616,Balochistan
-53617,Gilgit-Baltistan
-53618,Islamabad Capital Territory
-53619,Khyber Pakhtunkhwa
-53620,Punjab
-53621,Sindh
-60357,Andalucia
-60358,Aragon
-60359,Cantabria
-60360,Castilla-La Mancha
-60361,Community of Madrid
-60362,Extremadura
-60363,Balearic Islands
-60364,Canary Islands
-60365,Asturias
-60366,Murcia
-60367,Castile and León
-60368,Catalonia
-60370,Navarre
-60371,Valencian Community
-60372,Galicia
-60374,Basque Country
-60376,La Rioja
-60377,Baden-Württemberg
-60378,Bavaria
-60379,Berlin
-60380,Brandenburg
-60381,Bremen
-60382,Hamburg
-60383,Hesse
-60384,Lower Saxony
-60385,Mecklenburg-Vorpommern
-60386,North Rhine-Westphalia
-60387,Rhineland-Palatinate
-60388,Saarland
-60389,Saxony-Anhalt
-60390,Saxony
-60391,Schleswig-Holstein
-60392,Thuringia
+location_name,location_id
+Abruzzo,35507
+Acre,4750
+Afghanistan,160
+Aguascalientes,4643
+Alabama,523
+Alagoas,4751
+Alaska,524
+Albania,43
+Alberta,43858
+Algeria,139
+Amapá,4753
+Amazonas,4752
+Andalucia,60357
+Andhra Pradesh,4841
+Andorra,74
+Angola,168
+Aragon,60358
+Argentina,97
+Arizona,525
+Arkansas,526
+Armenia,33
+Arunachal Pradesh,4842
+Assam,4843
+Asturias,60365
+Australia,71
+Austria,75
+Azad Jammu & Kashmir,53615
+Azerbaijan,34
+Baden-Württemberg,60377
+Bahamas,106
+Bahia,4754
+Bahrain,140
+Baja California,4644
+Baja California Sur,4645
+Balearic Islands,60363
+Balochistan,53616
+Bangladesh,161
+Barbados,107
+Basilicata,35511
+Basque Country,60374
+Bavaria,60378
+Beijing,492
+Belarus,57
+Belgium,76
+Benin,200
+Berlin,60379
+Bihar,4844
+Bolivia (Plurinational State of),121
+Bosnia and Herzegovina,44
+Brandenburg,60380
+Brazil,135
+Bremen,60381
+British Columbia,43859
+Bulgaria,45
+Burkina Faso,201
+Cabo Verde,203
+Calabria,35512
+California,527
+Cameroon,202
+Campania,35509
+Campeche,4646
+Canada,101
+Canary Islands,60364
+Cantabria,60359
+Castile and León,60367
+Castilla-La Mancha,60360
+Catalonia,60368
+Ceará,4755
+Central African Republic,169
+Chad,204
+Chhattisgarh,4846
+Chiapas,4649
+Chihuahua,4650
+Chile,98
+China,6
+Chongqing,493
+Coahuila,4647
+Colima,4648
+Colombia,125
+Colorado,528
+Community of Madrid,60361
+Comoros,176
+Congo,170
+Connecticut,529
+Costa Rica,126
+Croatia,46
+Cuba,109
+Cyprus,77
+Czechia,47
+Côte d'Ivoire,205
+Delaware,530
+Delhi,4849
+Democratic Republic of the Congo,171
+Denmark,78
+District of Columbia,531
+Distrito Federal,4756
+Djibouti,177
+Dominican Republic,111
+Durango,4652
+Ecuador,122
+Egypt,141
+El Salvador,127
+Emilia-Romagna,35502
+England,4749
+Equatorial Guinea,172
+Espírito Santo,4757
+Estonia,58
+Eswatini,197
+Ethiopia,179
+Extremadura,60362
+Finland,79
+Florida,532
+France,80
+Friuli-Venezia Giulia,35501
+Gabon,173
+Galicia,60372
+Gambia,206
+Georgia,35
+Georgia,533
+Germany,81
+Ghana,207
+Gilgit-Baltistan,53617
+Global,1
+Goa,4850
+Goiás,4758
+Greece,82
+Guam,351
+Guanajuato,4653
+Guangdong,496
+Guatemala,128
+Guerrero,4654
+Guinea,208
+Guinea-Bissau,209
+Gujarat,4851
+Guyana,113
+Hainan,499
+Haiti,114
+Hamburg,60382
+Haryana,4852
+Hawaii,534
+Hebei,500
+Heilongjiang,501
+Hesse,60383
+Hidalgo,4655
+Himachal Pradesh,4853
+Honduras,129
+Hong Kong Special Administrative Region of China,354
+Hubei,503
+Hungary,48
+Iceland,83
+Idaho,535
+Illinois,536
+India,163
+Indiana,537
+Indonesia,11
+Iowa,538
+Iran (Islamic Republic of),142
+Iraq,143
+Ireland,84
+Islamabad Capital Territory,53618
+Israel,85
+Italy,86
+Jalisco,4656
+Jamaica,115
+Jammu & Kashmir and Ladakh,4854
+Japan,67
+Jharkhand,4855
+Jordan,144
+Kansas,539
+Karnataka,4856
+Kazakhstan,36
+Kentucky,540
+Kenya,180
+Kerala,4857
+Khyber Pakhtunkhwa,53619
+Kuwait,145
+Kyrgyzstan,37
+La Rioja,60376
+Latvia,59
+Lazio,35506
+Lebanon,146
+Liberia,210
+Libya,147
+Liguria,35496
+Lithuania,60
+Lombardia,35497
+Louisiana,541
+Lower Saxony,60384
+Luxembourg,87
+Madagascar,181
+Madhya Pradesh,4859
+Maharashtra,4860
+Maine,542
+Malawi,182
+Malaysia,13
+Maldives,14
+Mali,211
+Malta,88
+Manipur,4861
+Manitoba,43860
+Maranhão,4759
+Marche,35505
+Maryland,543
+Massachusetts,544
+Mato Grosso,4762
+Mato Grosso do Sul,4761
+Mauritania,212
+Mauritius,183
+Mecklenburg-Vorpommern,60385
+Meghalaya,4862
+Mexico,130
+Mexico City,4651
+Michigan,545
+Michoacán de Ocampo,4658
+Minas Gerais,4760
+Minnesota,546
+Mississippi,547
+Missouri,548
+Molise,35508
+Montana,549
+Montenegro,50
+Morelos,4659
+Morocco,148
+Mozambique,184
+Murcia,60366
+Myanmar,15
+México,4657
+Nagaland,4864
+Namibia,195
+Navarre,60370
+Nayarit,4660
+Nebraska,550
+Nepal,164
+Netherlands,89
+Nevada,551
+New Hampshire,552
+New Jersey,553
+New Mexico,554
+New York,555
+New Zealand,72
+Nicaragua,131
+Niger,213
+Nigeria,214
+North Carolina,556
+North Dakota,557
+North Macedonia,49
+North Rhine-Westphalia,60386
+Northern Ireland,433
+Norway,90
+Nova Scotia,43864
+Nuevo León,4661
+Oaxaca,4662
+Odisha,4865
+Ohio,558
+Oklahoma,559
+Oman,150
+Ontario,43866
+Oregon,560
+Pakistan,165
+Palestine,149
+Panama,132
+Paraguay,136
+Paraná,4765
+Paraíba,4764
+Pará,4763
+Pennsylvania,561
+Pernambuco,4766
+Peru,123
+Philippines,16
+Piaui,4767
+Piemonte,35494
+Poland,51
+Portugal,91
+Provincia autonoma di Bolzano,35498
+Provincia autonoma di Trento,35499
+Puebla,4663
+Puerto Rico,385
+Puglia,35510
+Punjab,4867
+Punjab,53620
+Qatar,151
+Quebec,43868
+Querétaro,4664
+Quintana Roo,4665
+Rajasthan,4868
+Republic of Korea,68
+Republic of Moldova,61
+Rhineland-Palatinate,60387
+Rhode Island,562
+Rio Grande do Norte,4769
+Rio Grande do Sul,4772
+Rio de Janeiro,4768
+Romania,52
+Rondônia,4770
+Roraima,4771
+Russian Federation,62
+Rwanda,185
+Saarland,60388
+San Luis Potosí,4666
+San Marino,396
+Santa Catarina,4773
+Sao Tome and Principe,215
+Sardegna,35514
+Saskatchewan,43869
+Saudi Arabia,152
+Saxony,60390
+Saxony-Anhalt,60389
+Schleswig-Holstein,60391
+Scotland,434
+Senegal,216
+Serbia,53
+Sergipe,4774
+Shandong,513
+Shanghai,514
+Sicilia,35513
+Sierra Leone,217
+Sinaloa,4667
+Sindh,53621
+Singapore,69
+Slovakia,54
+Slovenia,55
+Somalia,187
+Sonora,4668
+South Africa,196
+South Carolina,563
+South Dakota,564
+South Sudan,435
+Spain,92
+Sri Lanka,17
+Sudan,522
+Suriname,118
+Sweden,93
+Switzerland,94
+Syrian Arab Republic,153
+São Paulo,4775
+Tabasco,4669
+Taiwan (Province of China),8
+Tajikistan,39
+Tamaulipas,4670
+Tamil Nadu,4870
+Telangana,4871
+Tennessee,565
+Texas,566
+Thailand,18
+Thuringia,60392
+Tlaxcala,4671
+Tocantins,4776
+Togo,218
+Toscana,35503
+Trinidad and Tobago,119
+Tripura,4872
+Tunisia,154
+Turkey,155
+Uganda,190
+Ukraine,63
+Umbria,35504
+United Arab Emirates,156
+United Kingdom,95
+United States Virgin Islands,422
+United States of America,102
+Uruguay,99
+Utah,567
+Uttar Pradesh,4873
+Uttarakhand,4874
+Uzbekistan,41
+Valencian Community,60371
+Valle d'Aosta,35495
+Veneto,35500
+Venezuela (Bolivarian Republic of),133
+Veracruz de Ignacio de la Llave,4672
+Vermont,568
+Viet Nam,20
+Virginia,569
+Wales,4636
+Washington,570
+West Bengal,4875
+West Virginia,571
+Wisconsin,572
+Wyoming,573
+Yemen,157
+Yucatán,4673
+Zacatecas,4674
+Zambia,191
+Zimbabwe,198
