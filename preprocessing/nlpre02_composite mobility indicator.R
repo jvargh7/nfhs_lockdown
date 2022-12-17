@@ -1,4 +1,8 @@
-reference_hospitalization <- read_csv(paste0(path_lockdown_folder,"/working/ihme-covid19/2021-09-02/reference_hospitalization_all_locs.csv"))
+max_date = "2021-09-02"
+
+reference_hospitalization <- read_csv(paste0(path_lockdown_folder,"/working/ihme-covid19/2021-09-02/reference_hospitalization_all_locs.csv")) %>% 
+  dplyr::filter(mobility_data_type == "observed",date <= max_date)
+# reference_hospitalization <- read_csv(paste0(path_lockdown_folder,"/working/ihme-covid19/2022-01-08/reference_hospitalization_all_locs.csv"))
 
 unique_location_id <- reference_hospitalization %>% 
   dplyr::distinct(location_id,location_name) %>% 
@@ -22,7 +26,7 @@ india_cmi_imputed_step1 <- map_dfr(unique(india_cmi$location_id),
                                  dplyr::filter(location_id == l_i) ;
                                
                                orig %>% 
-                                 complete(date = seq.Date(ymd("2013-07-01"), ymd("2021-09-01"), by = "day")) %>% 
+                                 complete(date = seq.Date(ymd("2013-07-01"), ymd(max_date), by = "day")) %>% 
                                  mutate(location_name = unique(orig$location_name),
                                         location_id = l_i,
                                         mobility_data_type = case_when(is.na(mobility_composite) ~ "Imputed Step 1",

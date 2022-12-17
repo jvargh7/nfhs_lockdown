@@ -10,6 +10,7 @@ average_mobility_restriction <- function(child_dob,state_id,district_id,measurem
   
   if(state_id != 34){
     exposure = readRDS(paste0(path_lockdown_folder,"/working/india_cmi_imputed_step2.RDS")) %>% 
+      # v024 ~ v024_nfhs5
       dplyr::filter(v024 == state_id)  %>% 
       dplyr::filter(date <= measurement_date) 
   } else{
