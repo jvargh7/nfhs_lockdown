@@ -25,7 +25,35 @@ average_mobility_restriction <- function(child_dob,state_id,district_id,measurem
     mutate(period = case_when(date >= (child_dob - (38*7)) &  date < child_dob ~ "p1_estimate",
                               date >= child_dob & date < (child_dob + (30.5*6)) ~ "p2_estimate",
                               date >= (child_dob + (30.5*6)) & date < (child_dob + (30.5*24)) ~ "p3_estimate",
-                              TRUE ~ "p4_estimate"))
+                              TRUE ~ "p4_estimate"),
+           
+           
+           window = case_when(date >= (child_dob - (12*30.5)) & date < (child_dob - (9*30.5)) ~ "bm12_estimate",
+                              date >= (child_dob - (9*30.5)) & date < (child_dob - (6*30.5)) ~ "bm09_estimate",
+                              date >= (child_dob - (6*30.5)) & date < (child_dob - (3*30.5)) ~ "bm06_estimate",
+                              date >= (child_dob - (3*30.5)) & date < (child_dob) ~ "bm3_estimate",
+                              date >= (child_dob) & date < (child_dob + (3*30.5)) ~ "bp0_estimate",
+                              date >= (child_dob + (3*30.5)) & date < (child_dob + (6*30.5)) ~ "bp03_estimate",
+                              date >= (child_dob + (6*30.5)) & date < (child_dob + (9*30.5)) ~ "bp06_estimate",
+                              date >= (child_dob + (9*30.5)) & date < (child_dob + (12*30.5)) ~ "bp09_estimate",
+                              date >= (child_dob + (12*30.5)) & date < (child_dob + (15*30.5)) ~ "bp12_estimate",
+                              date >= (child_dob + (15*30.5)) & date < (child_dob + (18*30.5)) ~ "bp15_estimate",
+                              date >= (child_dob + (18*30.5)) & date < (child_dob + (21*30.5)) ~ "bp18_estimate",
+                              date >= (child_dob + (21*30.5)) & date < (child_dob + (24*30.5)) ~ "bp21_estimate",
+                              date >= (child_dob + (24*30.5)) & date < (child_dob + (27*30.5)) ~ "bp24_estimate",
+                              date >= (child_dob + (27*30.5)) & date < (child_dob + (30*30.5)) ~ "bp27_estimate",
+                              date >= (child_dob + (30*30.5)) & date < (child_dob + (33*30.5)) ~ "bp30_estimate",
+                              date >= (child_dob + (33*30.5)) & date < (child_dob + (36*30.5)) ~ "bp33_estimate",
+                              date >= (child_dob + (36*30.5)) & date < (child_dob + (39*30.5)) ~ "bp36_estimate",
+                              date >= (child_dob + (39*30.5)) & date < (child_dob + (42*30.5)) ~ "bp39_estimate",
+                              date >= (child_dob + (42*30.5)) & date < (child_dob + (45*30.5)) ~ "bp42_estimate",
+                              date >= (child_dob + (45*30.5)) & date < (child_dob + (48*30.5)) ~ "bp45_estimate",
+                              date >= (child_dob + (48*30.5)) & date < (child_dob + (51*30.5)) ~ "bp48_estimate",
+                              date >= (child_dob + (51*30.5)) & date < (child_dob + (54*30.5)) ~ "bp51_estimate",
+                              date >= (child_dob + (54*30.5)) & date < (child_dob + (57*30.5)) ~ "bp54_estimate",
+                              date >= (child_dob + (57*30.5)) & date < (child_dob + (60*30.5)) ~ "bp57_estimate", # Catch-all up to 60 months
+                              TRUE ~ NA_character_
+           ))
   
   
   exposure_estimate = exposure %>% 
@@ -42,6 +70,14 @@ average_mobility_restriction <- function(child_dob,state_id,district_id,measurem
               n = sum(!is.na(mobility_composite))) %>% 
     ungroup()
     
+  
+  exposure_window = exposure %>% 
+    dplyr::filter(!is.na(window)) %>% 
+    group_by(window) %>% 
+    summarize(est = mean(mobility_composite,na.rm=TRUE)) %>% 
+    dplyr::select(window,est) %>% 
+    pivot_wider(names_from="window",values_from="est") %>% 
+    dplyr::select(starts_with("bm"),starts_with("bp"))
 
   exposure_estimate %>%  
     bind_cols(period_estimates %>% 
@@ -56,7 +92,9 @@ average_mobility_restriction <- function(child_dob,state_id,district_id,measurem
               period_estimates %>% 
                 mutate(period = str_replace(period,"estimate","n")) %>% 
                 dplyr::select(-est,-gt20) %>% 
-                pivot_wider(names_from="period",values_from="n")
+                pivot_wider(names_from="period",values_from="n"),
+              
+              exposure_window
               ) %>% 
 
     return(.)

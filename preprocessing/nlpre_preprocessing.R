@@ -149,6 +149,9 @@ nlpre_preprocessing <- function(df){
   
     
     mutate(m_employment = factor(m_employment,levels=c("no","former","current"))) %>% 
+    mutate(hh_bpl_card = case_when(hh_bpl_card == 8 ~ 0,
+                                   TRUE ~ as.numeric(hh_bpl_card))) %>% 
+    
     dplyr::rename(
                   m_smoking = v463z) %>% 
     dplyr::select(v000:v007,sampleweight,v021,v023,v024,sdist,phase,

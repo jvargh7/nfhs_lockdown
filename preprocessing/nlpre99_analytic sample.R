@@ -66,11 +66,30 @@ analytic_sample_s3p2 <- analytic_sample_s3 %>%
                                                                TRUE ~ as.numeric(x)))
 
 
+analytic_sample_s3p1 <- analytic_sample_s3 %>% 
+  dplyr::filter(phase == 1) %>% 
+  # dplyr::filter(v024_nfhs5 == 4) %>%
+  # .[1:100,] %>%
+  # https://stackoverflow.com/questions/46899441/row-wise-iteration-like-apply-with-purrr
+  bind_cols(
+    future_pmap_dfr(.,.f=function(c_dob,v024_nfhs5,sdist,c_interview,...){
+      tryCatch({
+        average_mobility_restriction(c_dob,v024_nfhs5,sdist,c_interview) %>% 
+          dplyr::select(starts_with("bm"),starts_with("bp"))},
+        error = function(e){
+          data.frame(bp0_estimate = NA_real_)
+        })
+    })
+  )  %>% 
+  # Impute number of observations used as 0
+  mutate_at(vars(starts_with("bp"),starts_with("bm")),.funs = function(x) case_when(is.na(x) ~ NA_real_,
+                                                                                    TRUE ~ 0))
+
+
 
 analytic_sample_s4 <- bind_rows(
   analytic_sample_s3p2,
-  analytic_sample_s3 %>% 
-    dplyr::filter(phase == 1))
+  analytic_sample_s3p1)
 
 
 

@@ -12,9 +12,20 @@ iakr7a_variables <- readxl::read_excel("data/NFHS Lockdown Variable List.xlsx",s
   dplyr::filter(!is.na(selected))
 
 
+iahr7a_variables <- readxl::read_excel("data/NFHS Lockdown Variable List.xlsx",sheet="growth") %>% 
+  rename("selected" = iahr7adt) %>% 
+  dplyr::select(new_var,selected) %>% 
+  dplyr::filter(!is.na(selected))
+
+
 nfhs5 <- read_dta(paste0(path_dhs_data,"/IA/IAKR7CDT/IAKR7CFL.dta"),col_select = iakr7a_variables$selected) %>% 
   rename_with(~ iakr7a_variables$new_var[which(iakr7a_variables$selected == .x)], 
               .cols = iakr7a_variables$selected) %>% 
+  
+  left_join(read_dta(paste0(path_dhs_data,"/IA/IAHR7CDT/IAHR7CFL.dta"),col_select = iahr7a_variables$selected) %>% 
+              rename_with(~ iahr7a_variables$new_var[which(iahr7a_variables$selected == .x)], 
+                          .cols = iahr7a_variables$selected),
+            by = c("v001","v002")) %>%  
   nlpre_preprocessing() %>% 
   rename(v024_nfhs5 = v024) %>% 
   left_join(v024_comparison %>% 

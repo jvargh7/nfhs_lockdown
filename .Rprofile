@@ -7,6 +7,7 @@ require(lubridate)
 path_dhs_data <- "C:/Cloud/OneDrive - Emory University/data/dhs_program"
 path_lockdown_folder <- "C:/Cloud/OneDrive - Emory University/Papers/NFHS Lockdown"
 path_lockdown_repo <- "C:/code/external/nfhs_lockdown"
+path_covid19india_data <- "C:/Cloud/OneDrive - Emory University/data/covid19 india"
 
 lockdown_start <- "2020-03-24"
 lockdown_stop <- "2020-12-31"

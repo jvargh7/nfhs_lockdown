@@ -1,6 +1,6 @@
-
 source("analysis/nla_analytic sample processing.R")
-
+# df = analytic_sample %>% dplyr::filter(phase == 2) %>% dplyr::filter(p1_estimate == 0, p2_estimate==0,p3_estimate ==0)
+# summary(df$c_age)
 require(plotly)
 
 fig_df <- analytic_sample  %>% 
