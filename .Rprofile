@@ -3,14 +3,18 @@ require(survey)
 require(srvyr)
 require(lubridate)
 
+options(survey.adjust.domain.lonely=TRUE)
+options(survey.lonely.psu="adjust")
 
 path_dhs_data <- "C:/Cloud/OneDrive - Emory University/data/dhs_program"
 path_lockdown_folder <- "C:/Cloud/OneDrive - Emory University/Papers/NFHS Lockdown"
 path_lockdown_repo <- "C:/code/external/nfhs_lockdown"
 path_covid19india_data <- "C:/Cloud/OneDrive - Emory University/data/covid19 india"
 
-lockdown_start <- "2020-03-24"
+lockdown_start <- "2020-03-25"
 lockdown_stop <- "2020-12-31"
+
+delta_start <- "2021-04-01"
 
 demonetization_start <- "2016-11-09"
 demonetization_stop <- "2017-06-30"

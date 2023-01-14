@@ -14,13 +14,13 @@ nfhs5d_factsheets <- read.csv("https://raw.githubusercontent.com/jvargh7/nfhs5_f
   left_join(nfhs5d_map %>% 
               dplyr::select(nfhs5_factsheet_state,nfhs5_factsheet_district,sdist),
             by=c("state" = "nfhs5_factsheet_state","district"="nfhs5_factsheet_district")) %>% 
-  dplyr::filter(str_detect(Indicator,"^(7|8|9|10|14|15|16)\\.")) %>% 
+  dplyr::filter(str_detect(Indicator,"^(4|7|8|9|10|12|14|15|16)\\.")) %>% 
   mutate(variable = paste0("V",str_extract(Indicator,"^[0-9]+\\.") %>% str_replace(.,"\\.",""))) 
 
 
 nfhs5u_factsheets <- read.csv("https://raw.githubusercontent.com/jvargh7/nfhs5_factsheets/main/data%20for%20analysis/states.csv",header=TRUE) %>% 
   dplyr::filter(state %in% c("Chandigarh","Lakshadweep"),
-                str_detect(Indicator,"^(7|8|9|10|14|16|20)\\.")
+                str_detect(Indicator,"^(4|7|8|9|10|12|14|16|20)\\.")
                 ) %>% 
   mutate(variable = paste0("V",str_extract(Indicator,"^[0-9]+\\.") %>% str_replace(.,"\\.",""))) %>% 
   mutate(variable = case_when(variable == "V16" ~ "V15",

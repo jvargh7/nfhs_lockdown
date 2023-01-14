@@ -1,12 +1,22 @@
-source("analysis/nla_analytic sample processing.R")
+# source("analysis/nla_analytic sample processing.R")
+
+descriptive_svy <- readRDS(paste0(path_lockdown_folder,"/working/analytic_sample.RDS")) %>% 
+  as_survey_design(ids = v021,strata=v023,weights=sampleweight,variance ="YG",pps="brewer") %>% 
+  # Per 10pp change
+  mutate_at(vars(ends_with("estimate")),~ case_when(is.na(.) ~ 0,
+                                                    TRUE ~ .*-(1))) %>% 
+  # Per 30day change
+  mutate_at(vars(ends_with("gt20")),~case_when(is.na(.) ~ 0,
+                                               TRUE ~ .))
+
 
 source("C:/code/external/functions/survey/svysummary.R")
 
-c_vars = c("c_haz","c_waz","c_whz","m_age","m_height","m_bmi",
+c_vars = c("c_haz","c_waz","c_whz","c_bmiz","m_age","m_height","m_bmi","m_eduyr",
            "exposure_estimate","p1_estimate","p2_estimate","p3_estimate","p4_estimate",
            "exposure_gt20","p1_gt20","p2_gt20","p3_gt20","p4_gt20")
 p_vars = c("c_stunting","c_underweight","c_wasting","c_overweight")
-g_vars = c("m_caste","m_wealthq","m_religion","m_education","m_weightstatus")
+g_vars = c("m_caste","hh_wealthqur","hh_religion","m_education","m_weightstatus")
 
 id_vars = list(c("m_rural","phase"),
                c("phase"))
@@ -17,7 +27,7 @@ table_output <- map_dfr(id_vars,
                         
                         function(i_v){
                           
-                          n5_sy <- svysummary(analytic_svy,
+                          n5_sy <- svysummary(descriptive_svy,
                                               c_vars = c_vars,
                                               p_vars = p_vars,
                                               g_vars = g_vars,
