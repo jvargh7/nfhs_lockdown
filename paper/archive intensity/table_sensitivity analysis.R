@@ -1,7 +1,7 @@
 source("functions/gentable_coefs_contrasts.R")
 
 
-gentable_coefs_contrasts("ns1") %>% 
+gentable_coefs_contrasts("ns1",e_flag = FALSE) %>% 
   write_csv("paper/table_ns1 anthropometric z-scores.csv")
 
 gentable_coefs_contrasts("ns2") %>% 

@@ -29,3 +29,9 @@ e04a = paste0("~ exposure_estimate + exposure_estimate_gt10 + exposure_estimate_
 e05a = paste0("~ exposure_estimate_centered + exposure_gt20_centered + c_age3mo*phase2 + m_rural + factor(sdist) + factor(c_measurementmonth) ",c_covariates,m_covariates,hh_covariates)
 e05b = paste0("~ exposure_estimate_centered*exposure_gt20_centered + c_age3mo*phase2 + m_rural + factor(sdist) + factor(c_measurementmonth) ",c_covariates,m_covariates,hh_covariates)
 
+
+e06a = paste0("~ phase2*c_age3mo + m_rural + factor(sdist) + factor(c_measurementmonth) ",c_covariates,m_covariates,hh_covariates)
+
+
+# Which variable mattered?
+

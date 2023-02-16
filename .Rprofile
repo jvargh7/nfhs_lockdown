@@ -15,6 +15,7 @@ lockdown_start <- "2020-03-25"
 lockdown_stop <- "2020-12-31"
 
 delta_start <- "2021-04-01"
+delta_stop <- "2021-07-01"
 
 demonetization_start <- "2016-11-09"
 demonetization_stop <- "2017-06-30"

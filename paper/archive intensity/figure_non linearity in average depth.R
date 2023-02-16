@@ -27,6 +27,11 @@ exposure_fit$coef_stunting = as.numeric(exposure_fit_matrix %*% coefs_stunting)
 exposure_fit$coef_underweight = as.numeric(exposure_fit_matrix %*% coefs_underweight)
 exposure_fit$coef_wasting = as.numeric(exposure_fit_matrix %*% coefs_wasting)
 
+# exposure_fit$se_stunting = sqrt(((exposure_fit_matrix>0)*1)%*%vcov_stunting%*% t(((exposure_fit_matrix>0)*1))) %>% diag(.) 
+# exposure_fit$se_underweight = sqrt(((exposure_fit_matrix>0)*1)%*%vcov_underweight%*% t(((exposure_fit_matrix>0)*1))) %>% diag(.)
+# exposure_fit$se_wasting = sqrt(((exposure_fit_matrix>0)*1)%*%vcov_wasting%*% t(((exposure_fit_matrix>0)*1))) %>% diag(.)
+
+
 exposure_fit$se_stunting = sqrt(exposure_fit_matrix%*%vcov_stunting%*% t(exposure_fit_matrix)) %>% diag(.) %>% .[row_1unit]
 exposure_fit$se_underweight = sqrt(exposure_fit_matrix%*%vcov_underweight%*% t(exposure_fit_matrix)) %>% diag(.) %>% .[row_1unit]
 exposure_fit$se_wasting = sqrt(exposure_fit_matrix%*%vcov_wasting%*% t(exposure_fit_matrix)) %>% diag(.) %>% .[row_1unit]
