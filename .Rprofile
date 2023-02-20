@@ -12,7 +12,7 @@ path_lockdown_repo <- "C:/code/external/nfhs_lockdown"
 path_covid19india_data <- "C:/Cloud/OneDrive - Emory University/data/covid19 india"
 
 lockdown_start <- "2020-03-25"
-lockdown_stop <- "2020-12-31"
+lockdown_stop <- "2020-09-24"
 
 delta_start <- "2021-04-01"
 delta_stop <- "2021-07-01"

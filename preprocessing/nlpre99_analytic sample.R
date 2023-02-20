@@ -1,4 +1,4 @@
-
+source(".Rprofile")
 nfhs5_exposure <- readRDS(paste0(path_lockdown_folder,"/working/nfhs5 child.RDS"))   %>% 
   mutate(m_alcohol = case_when(is.na(m_alcohol) ~ 0,
                                TRUE ~ m_alcohol)) %>% 
@@ -32,7 +32,7 @@ table(analytic_sample_s3$phase,useNA="always")
 
 # Adding exposure data ------------
 
-source("functions/average_mobility_restriction.R")
+source("functions/cumulative_mobility_restriction.R")
 
 
 
@@ -53,13 +53,13 @@ analytic_sample_s3p2 <- analytic_sample_s3 %>%
     # 
     future_pmap_dfr(.,.f=function(c_dob,v024_nfhs5,sdist,c_interview,...){
       tryCatch({
-        average_mobility_restriction(c_dob,v024_nfhs5,sdist,c_interview)},
+        cumulative_mobility_restriction(c_dob,v024_nfhs5,sdist,c_interview)},
         error = function(e){
-          data.frame(exposure_estimate = NA,
-                     p1_estimate = NA,
-                     p2_estimate = NA,
-                     p3_estimate = NA,
-                     p4_estimate = NA,
+          data.frame(exposure_cumulative = NA,
+                     p1_cumulative = NA,
+                     p2_cumulative = NA,
+                     p3_cumulative = NA,
+                     p4_cumulative = NA,
                      p1_n = NA,
                      p2_n = NA,
                      p3_n = NA,
@@ -68,7 +68,7 @@ analytic_sample_s3p2 <- analytic_sample_s3 %>%
     })
   )  %>% 
   # Impute number of observations used as 0
-  mutate_at(vars(matches("(_n|_gt20)$")),.funs = function(x) case_when(is.na(x) ~ 0,
+  mutate_at(vars(matches("(_n|_gt40)$")),.funs = function(x) case_when(is.na(x) ~ 0,
                                                                TRUE ~ as.numeric(x)))
 
 
