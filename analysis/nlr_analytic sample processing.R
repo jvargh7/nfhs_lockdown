@@ -30,3 +30,5 @@ r6_svy <- analytic_sample_wdistrict %>%
 r7_svy <- analytic_sample_wdistrict %>% 
   dplyr::filter(group == "G7",m_rural == 1) %>% 
   as_survey_design(ids = v021,strata=v023,weights=sampleweight,variance ="YG",pps="brewer")
+
+

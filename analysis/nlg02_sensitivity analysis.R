@@ -58,3 +58,6 @@ association_cumulative_restriction(prefix = "ns3",
                                    family_svyglm = "gaussian",
                                    eq=list(eg1,eg2,eg3,eg4,eg5,eg6,eg7) %>% map(.,function(x) str_replace(x,"\\+ c_male ",
                                                                                                           "+ c_male + bpl_card + icds ")))
+
+rm(list=ls()); gc(); source(".Rprofile")
+source("analysis/ns4_analytic sample processing.R")

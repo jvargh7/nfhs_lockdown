@@ -42,6 +42,6 @@ interaction_covariates <- " + age_categories*m_rural + nfhs5*m_rural + c_male*m_
 as_formula = function(...){as.formula(...)}
 
 
-source("functions/save_svyglm.R")
+source(paste0(path_lockdown_repo,"/functions/save_svyglm.R"))
 options(survey.adjust.domain.lonely=TRUE)
 options(survey.lonely.psu="adjust")

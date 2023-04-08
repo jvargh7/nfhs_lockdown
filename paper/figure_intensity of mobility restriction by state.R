@@ -31,7 +31,8 @@ fig <- india_cmi %>%
   scale_y_continuous(limits = c(-100,5),breaks=seq(-80,5,by=20)) +
   # https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/strptime
   scale_x_date(limits=c(ymd(nfhs5p1_start), ymd(nfhs5p2_stop)+15),date_labels = "%b-%Y",
-               breaks = seq.Date(ymd(nfhs5p1_start), ymd(nfhs5p2_stop),by="quarter")) +
+               breaks = seq.Date(ymd(nfhs5p1_start), ymd(nfhs5p2_stop),by="quarter"),
+               minor_breaks = seq.Date(ymd(nfhs5p1_start), ymd(nfhs5p2_stop),by="month")) +
   geom_rect(aes(xmin=ymd(nfhs5p1_start),xmax=ymd(nfhs5p1_stop),ymin=-100,ymax=-95),fill="grey80",col=NA) +
   annotate("text",x= (ymd(nfhs5p1_start) + 80),y= -98,label="NFHS5 Phase 1",hjust = 0) +
   geom_rect(aes(xmin=ymd(nfhs5p2_start),xmax=ymd(nfhs5p2_stop),ymin=-100,ymax=-95),fill="grey80",col=NA) +
